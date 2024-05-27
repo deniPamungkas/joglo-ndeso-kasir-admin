@@ -14,9 +14,11 @@ const Products = () => {
   const { open, setOpen } = useContext(NavContext);
   const [image, setImage] = useState(null);
   const [err, setErr] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const handleCloseModal = () => {
     setOpen(false);
+    setEdit(false);
     setImage(null);
     formik.setValues({
       name: "",
@@ -74,7 +76,15 @@ const Products = () => {
         );
         console.log(formik.values);
         setOpen(false);
+        setEdit(false);
         setImage(null);
+        formik.setValues({
+          name: "",
+          category: "",
+          price: "",
+          profit: "",
+          photo: "",
+        });
         Swal.fire({
           position: "center",
           icon: "success",
@@ -86,7 +96,15 @@ const Products = () => {
         return result;
       } catch (error) {
         setOpen(false);
+        setEdit(false);
         setImage(null);
+        formik.setValues({
+          name: "",
+          category: "",
+          price: "",
+          profit: "",
+          photo: "",
+        });
         Swal.fire({
           position: "center",
           icon: "error",
@@ -177,7 +195,29 @@ const Products = () => {
       }
     });
   };
-
+  const handleEditMenu = async (e) => {
+    try {
+      setEdit(true);
+      const editMenu =
+        e.target.parentElement.parentElement.parentElement.parentElement.id;
+      const result = await axios.post(
+        "http://localhost:5500/admin/v1/editProduct",
+        { name: editMenu }
+      );
+      const { data } = result;
+      formik.setValues({
+        name: data[0].name,
+        category: data[0].category,
+        price: data[0].price,
+        profit: data[0].profit,
+        photo: data[0].photo,
+      });
+      setOpen(true);
+      return console.log(result);
+    } catch (error) {
+      return console.log(error);
+    }
+  };
   return (
     <div className="w-full h-screen p-3">
       <div className="mt-16 w-full h-[510px] overflow-scroll relative">
@@ -221,12 +261,7 @@ const Products = () => {
                     <div className="flex gap-x-2">
                       <div
                         className="flex justify-center items-center relative cursor-pointer"
-                        onClick={(e) => {
-                          console.log(
-                            e.target.parentElement.parentElement.parentElement
-                              .parentElement.id
-                          );
-                        }}
+                        onClick={handleEditMenu}
                       >
                         <div className="absolute top-0 right-0 left-0 bottom-0 z-10 bg-transparent"></div>
                         <FiEdit style={{ color: "#0b8003" }} />
@@ -255,7 +290,7 @@ const Products = () => {
       <Modal open={open}>
         <div className="w-[700px] h-[500px] outline-none bg-white rounded-md absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] p-7 flex flex-col justify-center gap-y-14">
           <h1 className="text-center text-2xl font-semibold">
-            ADD NEW PRODUCT
+            {edit ? "EDIT PRODUCT" : "ADD NEW PRODUCT"}
           </h1>
           <form
             onSubmit={formik.handleSubmit}
@@ -270,6 +305,7 @@ const Products = () => {
                     type="text"
                     name="name"
                     id="name"
+                    value={formik.values.name}
                     className="border-2 border-black rounded-md h-[35px] px-3"
                     placeholder="Nama Menu.."
                     onChange={handleFormChange}
@@ -282,6 +318,7 @@ const Products = () => {
                     name="category"
                     id="category"
                     className="border-2 border-black rounded-md h-[35px] px-3"
+                    value={formik.values.category}
                     onChange={handleFormChange}
                   >
                     <option value="">-- Pilih Kategori --</option>
@@ -297,6 +334,7 @@ const Products = () => {
                     type="number"
                     name="price"
                     id="price"
+                    value={formik.values.price}
                     className="border-2 border-black rounded-md h-[35px] px-3"
                     placeholder="Harga Menu.."
                     onChange={handleFormChange}
@@ -309,6 +347,7 @@ const Products = () => {
                     type="number"
                     name="profit"
                     id="profit"
+                    value={formik.values.profit}
                     className="border-2 border-black rounded-md h-[35px] px-3"
                     placeholder="Keuntungan"
                     onChange={handleFormChange}
