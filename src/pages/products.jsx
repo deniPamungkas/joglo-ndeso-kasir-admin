@@ -20,6 +20,7 @@ const Products = () => {
     setOpen(false);
     setEdit(false);
     setImage(null);
+    window.localStorage.removeItem("item");
     formik.setValues({
       name: "",
       category: "",
@@ -69,51 +70,101 @@ const Products = () => {
 
   const productMutation = useMutation({
     mutationFn: async () => {
-      try {
-        const result = await axios.post(
-          "https://joglo-ndeso-kasir-api.vercel.app/admin/v1/addNewMenu",
-          formik.values
-        );
-        console.log(formik.values);
-        setOpen(false);
-        setEdit(false);
-        setImage(null);
-        formik.setValues({
-          name: "",
-          category: "",
-          price: "",
-          profit: "",
-          photo: "",
-        });
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Berhasil Menambah Menu baru!",
-          showConfirmButton: false,
-          timer: 2000,
-        });
-        console.log(result);
-        return result;
-      } catch (error) {
-        setOpen(false);
-        setEdit(false);
-        setImage(null);
-        formik.setValues({
-          name: "",
-          category: "",
-          price: "",
-          profit: "",
-          photo: "",
-        });
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: error.response.data.errMessage,
-          showConfirmButton: false,
-          timer: 2000,
-        });
-        console.log(error);
-        return error;
+      if (edit) {
+        const item = JSON.parse(window.localStorage.getItem("item"));
+        try {
+          const edit = await axios.patch(
+            "https://joglo-ndeso-kasir-api.vercel.app/admin/v1/updateProduct/" +
+              item.name,
+            formik.values
+          );
+          console.log(edit);
+          setOpen(false);
+          setEdit(false);
+          setImage(null);
+          formik.setValues({
+            name: "",
+            category: "",
+            price: "",
+            profit: "",
+            photo: "",
+          });
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil Mengupdate Menu!",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          window.localStorage.removeItem("item");
+          return edit;
+        } catch (error) {
+          setOpen(false);
+          setEdit(false);
+          setImage(null);
+          formik.setValues({
+            name: "",
+            category: "",
+            price: "",
+            profit: "",
+            photo: "",
+          });
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: error.response.data.errMessage,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          window.localStorage.removeItem("item");
+        }
+      } else {
+        try {
+          const result = await axios.post(
+            "https://joglo-ndeso-kasir-api.vercel.app/admin/v1/addNewMenu",
+            formik.values
+          );
+          console.log(formik.values);
+          setOpen(false);
+          setEdit(false);
+          setImage(null);
+          formik.setValues({
+            name: "",
+            category: "",
+            price: "",
+            profit: "",
+            photo: "",
+          });
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Berhasil Menambah Menu baru!",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          console.log(result);
+          return result;
+        } catch (error) {
+          setOpen(false);
+          setEdit(false);
+          setImage(null);
+          formik.setValues({
+            name: "",
+            category: "",
+            price: "",
+            profit: "",
+            photo: "",
+          });
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: error.response.data.errMessage,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          console.log(error);
+          return error;
+        }
       }
     },
     onSuccess: () => {
@@ -200,20 +251,23 @@ const Products = () => {
       setEdit(true);
       const editMenu =
         e.target.parentElement.parentElement.parentElement.parentElement.id;
-      const result = await axios.post(
-        "http://localhost:5500/admin/v1/editProduct",
-        { name: editMenu }
-      );
-      const { data } = result;
-      formik.setValues({
-        name: data[0].name,
-        category: data[0].category,
-        price: data[0].price,
-        profit: data[0].profit,
-        photo: data[0].photo,
-      });
-      setOpen(true);
-      return console.log(result);
+      axios
+        .post("https://joglo-ndeso-kasir-api.vercel.app/admin/v1/editProduct", {
+          name: editMenu,
+        })
+        .then((res) => {
+          console.log(res);
+          const { data } = res;
+          window.localStorage.setItem("item", JSON.stringify(data));
+          formik.setValues({
+            name: data.name,
+            category: data.category,
+            price: data.price,
+            profit: data.profit,
+            photo: data.photo,
+          });
+        });
+      return setOpen(true);
     } catch (error) {
       return console.log(error);
     }
@@ -372,6 +426,7 @@ const Products = () => {
                   required
                   id="inputGambar"
                   name="photo"
+                  // value={formik.values.photo}
                   className=""
                   onChange={handleFormChange}
                 />
@@ -382,7 +437,7 @@ const Products = () => {
                 type="submit"
                 className="w-[90px] h-[30px] rounded-md text-white bg-blue-500 flex justify-center items-center"
               >
-                Tambah
+                {edit ? "Update" : "Tambah"}
               </button>
               <button
                 type="button"
