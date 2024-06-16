@@ -13,7 +13,12 @@ import {
   CategoryScale,
 } from "chart.js";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import {
+  allOrders,
+  dailyOrders,
+  monthlyOrders,
+  weeklyOrders,
+} from "../utils/getOrders";
 
 const Dashboard = () => {
   ChartJS.register(
@@ -28,29 +33,72 @@ const Dashboard = () => {
     CategoryScale
   );
 
-  const { data, isLoading } = useQuery({
+  const months = () => {
+    const month = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+    ];
+    const getSixMonth = [];
+    const getThisMonth = new Date().getMonth();
+    for (let i = getThisMonth; i < getThisMonth + 6; i++) {
+      getSixMonth.push(month[i]);
+    }
+    return getSixMonth;
+  };
+
+  const orders = useQuery({
     queryKey: ["orders"],
-    queryFn: async () => {
-      try {
-        const result = await axios.get(
-          "http://localhost:5500/admin/v1/getAllOrders"
-        );
-        return result.data;
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
-    },
+    queryFn: allOrders,
   });
-  console.log(data);
+
+  const ordersThisMonth = useQuery({
+    queryKey: ["monthlyOrders"],
+    queryFn: monthlyOrders,
+  });
+  const profitThisMonth = ordersThisMonth.data?.reduce((acc, cur) => {
+    return acc + cur.profit;
+  }, 0);
+
+  const ordersThisWeek = useQuery({
+    queryKey: ["weeklyOrders"],
+    queryFn: weeklyOrders,
+  });
+  const profitThisWeek = ordersThisWeek.data?.reduce((acc, cur) => {
+    return acc + cur.profit;
+  }, 0);
+
+  const ordersThisDay = useQuery({
+    queryKey: ["dailyOrders"],
+    queryFn: dailyOrders,
+  });
+  const profitThisDay = ordersThisDay.data?.reduce((acc, cur) => {
+    return acc + cur.profit;
+  }, 0);
+
   return (
     <div className="mt-16 w-full h-fit">
       <section className="w-full h-fit md:h-[150px] flex py-4 px-3 justify-center md:justify-start items-center">
         <div className="md:w-full md:h-full grid grid-cols-2 lg:grid-cols-4 gap-2">
           <Earnings time="Year" />
-          <Earnings time="Month" />
-          <Earnings time="Week" />
-          <Earnings time="day" />
+          <Earnings time="Month" value={profitThisMonth} />
+          <Earnings time="Week" value={profitThisWeek} />
+          <Earnings time="day" value={profitThisDay} />
         </div>
       </section>
       <section className="px-3 flex-col">
@@ -70,24 +118,13 @@ const Dashboard = () => {
                 },
               }}
               data={{
-                labels: [
-                  "Jun 23",
-                  "Jul 23",
-                  "Aug 23",
-                  "Sep 23",
-                  "Okt 23",
-                  "Nov 23",
-                ],
+                labels: months(),
                 datasets: [
                   {
                     id: 1,
-                    label: "paket",
                     backgroundColor: "teal",
                     borderColor: "teal",
-                    data: data
-                      ?.map((val) => {
-                        return val.amount;
-                      }),
+                    data: [20],
                   },
                 ],
               }}

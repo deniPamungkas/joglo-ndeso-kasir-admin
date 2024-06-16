@@ -6,7 +6,14 @@ const Earnings = (props) => {
         <span className="text-xs">Aug</span>
       </div>
       <div>
-        <span className="text-lg font-bold">Rp. 2.305.000</span>
+        <span className="text-lg font-bold">
+          {props.value
+            ? new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "IDR",
+              }).format(props.value)
+            : "2.300.00"}
+        </span>
       </div>
     </section>
   );
