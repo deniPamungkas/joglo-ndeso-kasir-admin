@@ -12,14 +12,12 @@ import * as Yup from "yup";
 
 const Products = () => {
   const { open, setOpen } = useContext(NavContext);
-  const [image, setImage] = useState(null);
   const [err, setErr] = useState(false);
   const [edit, setEdit] = useState(false);
 
   const handleCloseModal = () => {
     setOpen(false);
     setEdit(false);
-    setImage(null);
     window.localStorage.removeItem("item");
     formik.setValues({
       name: "",
@@ -31,24 +29,7 @@ const Products = () => {
   };
 
   const handleFormChange = (e) => {
-    if (e.target.name == "photo") {
-      const img = URL.createObjectURL(e.target.files[0]);
-      setImage(img);
-      // setNewMenu({
-      //   ...newMenu,
-      //   [e.target.name]:
-      //     newMenu.name != "" ? newMenu.name + ".png" : e.target.files[0].name,
-      // });
-      formik.setFieldValue(
-        e.target.name,
-        formik.initialValues.name != ""
-          ? formik.initialValues.name + ".png"
-          : e.target.files[0].name
-      );
-    } else {
-      formik.setFieldValue(e.target.name, e.target.value);
-      //setNewMenu({ ...newMenu, [e.target.name]: e.target.value });
-    }
+    formik.setFieldValue(e.target.name, e.target.value);
   };
 
   const queryClient = useQueryClient();
@@ -78,10 +59,8 @@ const Products = () => {
               item.name,
             formik.values
           );
-          console.log(edit);
           setOpen(false);
           setEdit(false);
-          setImage(null);
           formik.setValues({
             name: "",
             category: "",
@@ -101,7 +80,6 @@ const Products = () => {
         } catch (error) {
           setOpen(false);
           setEdit(false);
-          setImage(null);
           formik.setValues({
             name: "",
             category: "",
@@ -127,7 +105,6 @@ const Products = () => {
           console.log(formik.values);
           setOpen(false);
           setEdit(false);
-          setImage(null);
           formik.setValues({
             name: "",
             category: "",
@@ -147,7 +124,6 @@ const Products = () => {
         } catch (error) {
           setOpen(false);
           setEdit(false);
-          setImage(null);
           formik.setValues({
             name: "",
             category: "",
@@ -191,19 +167,7 @@ const Products = () => {
   });
 
   const handleSubmit = async () => {
-    if (formik.errors.photo == "requiredPhoto") {
-      setErr(err);
-      console.log("first");
-    } else {
-      // formik.values({
-      //   name: "",
-      //   category: "",
-      //   price: "",
-      //   profit: "",
-      //   photo: "",
-      // });
-      productMutation.mutate();
-    }
+    productMutation.mutate();
   };
 
   const formik = useFormik({
@@ -214,9 +178,6 @@ const Products = () => {
       profit: "",
       photo: "",
     },
-    validationSchema: Yup.object().shape({
-      photo: Yup.string().required("requiredPhoto"),
-    }),
     onSubmit: handleSubmit,
   });
 
@@ -256,7 +217,6 @@ const Products = () => {
           name: editMenu,
         })
         .then((res) => {
-          console.log(res);
           const { data } = res;
           window.localStorage.setItem("item", JSON.stringify(data));
           formik.setValues({
@@ -281,7 +241,6 @@ const Products = () => {
           <table className="bg-white rounded-md w-full text-sm xl:text-base">
             <thead className="border-b-2 sticky top-0 z-20 bg-blue-500 text-white">
               <tr>
-                <th className="text-start px-4 py-2 xl:py-4">Images</th>
                 <th className="text-start px-4 py-2 xl:py-4">Name</th>
                 <th className="text-start px-4 py-2 xl:py-4 flex flex-col xl:flex-row gap-x-2">
                   <span>Category</span>
@@ -304,9 +263,6 @@ const Products = () => {
             <tbody className="">
               {data?.map((item) => (
                 <tr key={item.name} id={item.name}>
-                  <td className="px-4 py-2 xl:py-4">
-                    <div className="w-[50px] h-[50px] bg-red-500 rounded-md"></div>
-                  </td>
                   <td className="px-4 py-2 xl:py-4">{item.name}</td>
                   <td className="px-4 py-2 xl:py-4">{item.category}</td>
                   <td className="px-4 py-2 xl:py-4">{item.price}</td>
@@ -351,7 +307,7 @@ const Products = () => {
             className="text-sm flex flex-col gap-y-10"
           >
             <div className="w-full flex justify-between">
-              <div className="w-1/2 flex flex-col gap-y-5">
+              <div className="w-full flex flex-col gap-y-5">
                 <div className="w-full h-fit flex flex-col gap-y-2">
                   <label htmlFor="name">Name</label>
                   <input
@@ -408,34 +364,13 @@ const Products = () => {
                   />
                 </div>
               </div>
-              <div className="w-1/2 h-full flex flex-col items-center justify-center px-3">
-                <label htmlFor="inputGambar">
-                  <div className="bg-gray-300 w-[200px] h-[200px] rounded-[50px] flex flex-col justify-center items-center overflow-hidden">
-                    {image ? (
-                      <img src={image} alt="photo" className="w-full h-full" />
-                    ) : (
-                      <>
-                        <AddAPhotoIcon />
-                        <span className="font-semibold">Add Product Photo</span>
-                      </>
-                    )}
-                  </div>
-                </label>
-                <input
-                  type="file"
-                  required
-                  id="inputGambar"
-                  name="photo"
-                  // value={formik.values.photo}
-                  className=""
-                  onChange={handleFormChange}
-                />
-              </div>
             </div>
             <div className="flex justify-end gap-x-2 font-semibold">
               <button
                 type="submit"
-                className="w-[90px] h-[30px] rounded-md text-white bg-blue-500 flex justify-center items-center"
+                className={`w-[90px] h-[30px] rounded-md text-white flex justify-center items-center ${
+                  productMutation.isPending ? "bg-gray-500" : "bg-blue-500"
+                }`}
               >
                 {edit ? "Update" : "Tambah"}
               </button>

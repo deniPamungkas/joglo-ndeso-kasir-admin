@@ -1,5 +1,5 @@
 import Earnings from "../components/earnings";
-import { Bar, Doughnut, Line } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -28,7 +28,7 @@ const Dashboard = () => {
     CategoryScale
   );
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
       try {
@@ -37,24 +37,17 @@ const Dashboard = () => {
         );
         return result.data;
       } catch (error) {
+        console.log(error);
         return error;
       }
     },
   });
-  console.log(
-    // data?.filter(()=>{})
-    data
-      ?.filter((er) => {
-        return er.category == "minum";
-      })
-      .map((val) => {
-        return val.amount;
-      })
-  );
+  console.log(data);
   return (
     <div className="mt-16 w-full h-fit">
-      <section className="w-full h-fit flex py-4 px-3 justify-center md:justify-start items-center">
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
+      <section className="w-full h-fit md:h-[150px] flex py-4 px-3 justify-center md:justify-start items-center">
+        <div className="md:w-full md:h-full grid grid-cols-2 lg:grid-cols-4 gap-2">
+          <Earnings time="Year" />
           <Earnings time="Month" />
           <Earnings time="Week" />
           <Earnings time="day" />
@@ -62,14 +55,19 @@ const Dashboard = () => {
       </section>
       <section className="px-3 flex-col">
         <h1 className="text-xl font-bold mb-2">Analytics</h1>
-        <div className="flex flex-col lg:flex-row gap-2">
-          <div className="grafik w-full h-fit bg-white rounded-md p-2">
-            <h1 className="font-semibold text-xl">Grafik Pesanan</h1>
+        <div className="flex flex-col xl:flex-row gap-2">
+          <div className="w-full h-fit bg-white rounded-md p-2">
+            <h1 className="font-semibold text-xl">Grafik Keuntungan</h1>
             <Line
               datasetIdKey="se"
               options={{
+                responsive: true,
                 animation: { duration: 2000, easing: "easeOutExpo" },
-                backgroundColor: "green",
+                plugins: {
+                  legend: {
+                    labels: {},
+                  },
+                },
               }}
               data={{
                 labels: [
@@ -87,36 +85,7 @@ const Dashboard = () => {
                     backgroundColor: "teal",
                     borderColor: "teal",
                     data: data
-                      ?.filter((er) => {
-                        return er.category == "paket";
-                      })
-                      .map((val) => {
-                        return val.amount;
-                      }),
-                  },
-                  {
-                    id: 2,
-                    label: "makan",
-                    backgroundColor: "orange",
-                    borderColor: "orange",
-                    data: data
-                      ?.filter((er) => {
-                        return er.category == "makan";
-                      })
-                      .map((val) => {
-                        return val.amount;
-                      }),
-                  },
-                  {
-                    id: 3,
-                    label: "minum",
-                    backgroundColor: "salmon",
-                    borderColor: "salmon",
-                    data: data
-                      ?.filter((er) => {
-                        return er.category == "minum";
-                      })
-                      .map((val) => {
+                      ?.map((val) => {
                         return val.amount;
                       }),
                   },
@@ -129,6 +98,8 @@ const Dashboard = () => {
             <Bar
               datasetIdKey="se"
               options={{
+                responsive: true,
+                indexAxis: "x",
                 animation: { duration: 2000, easing: "easeOutExpo" },
               }}
               data={{
@@ -146,21 +117,21 @@ const Dashboard = () => {
                     label: "paket",
                     backgroundColor: "teal",
                     borderColor: "teal",
-                    data: [5, 1, 7, 4, 6, 2],
+                    data: [500, 100, 700, 400, 600, 200],
                   },
                   {
                     id: 2,
                     label: "makan",
                     backgroundColor: "orange",
                     borderColor: "orange",
-                    data: [3, 6, 2, 6, 8, 4],
+                    data: [300, 600, 200, 600, 800, 400],
                   },
                   {
                     id: 3,
                     label: "minum",
                     backgroundColor: "salmon",
                     borderColor: "salmon",
-                    data: [4, 5, 3, 5, 7, 1],
+                    data: [40, 500, 300, 500, 700, 100],
                   },
                 ],
               }}

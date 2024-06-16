@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 function App() {
   const queryClient = new QueryClient();
   return (
-    <div className="bg-gray-100 relative">
+    <div className="bg-gray-100 w-full relative">
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
