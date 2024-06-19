@@ -12,7 +12,7 @@ const Earnings = (props) => {
                 style: "currency",
                 currency: "IDR",
               }).format(props.value)
-            : "2.300.00"}
+            : "0"}
         </span>
       </div>
     </section>

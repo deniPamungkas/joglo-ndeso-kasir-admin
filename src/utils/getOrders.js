@@ -24,6 +24,18 @@ export const allOrders = async () => {
 //     }
 //   };
 
+export const sixMonthOrders = async () => {
+  try {
+    const result = await axios.get(
+      "http://localhost:5500/admin/v1/getSixMonthOrders"
+    );
+    return result.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 export const monthlyOrders = async () => {
   try {
     const result = await axios.get(

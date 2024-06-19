@@ -17,6 +17,7 @@ import {
   allOrders,
   dailyOrders,
   monthlyOrders,
+  sixMonthOrders,
   weeklyOrders,
 } from "../utils/getOrders";
 
@@ -35,6 +36,12 @@ const Dashboard = () => {
 
   const months = () => {
     const month = [
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des",
       "Jan",
       "Feb",
       "Mar",
@@ -48,16 +55,12 @@ const Dashboard = () => {
       "Nov",
       "Des",
       "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mei",
-      "Jun",
     ];
+
     const getSixMonth = [];
     const getThisMonth = new Date().getMonth();
-    for (let i = getThisMonth; i < getThisMonth + 6; i++) {
-      getSixMonth.push(month[i]);
+    for (let i = getThisMonth; i >= getThisMonth - 5; i--) {
+      getSixMonth.unshift(month[i + 6]);
     }
     return getSixMonth;
   };
@@ -66,6 +69,13 @@ const Dashboard = () => {
     queryKey: ["orders"],
     queryFn: allOrders,
   });
+
+  const orderSixMonths = useQuery({
+    queryKey: ["sixMonthOrders"],
+    queryFn: sixMonthOrders,
+  });
+
+  console.log(orderSixMonths?.data[0].keuntungan);
 
   const ordersThisMonth = useQuery({
     queryKey: ["monthlyOrders"],
@@ -122,9 +132,10 @@ const Dashboard = () => {
                 datasets: [
                   {
                     id: 1,
+                    label: "keuntungan",
                     backgroundColor: "teal",
                     borderColor: "teal",
-                    data: [20],
+                    data: [0, 0, 0, 0, 0, orderSixMonths?.data[0].keuntungan],
                   },
                 ],
               }}
