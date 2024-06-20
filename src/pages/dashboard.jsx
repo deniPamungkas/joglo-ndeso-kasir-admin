@@ -16,8 +16,12 @@ import { useQuery } from "@tanstack/react-query";
 import {
   allOrders,
   dailyOrders,
+  fitDataToMonth,
   monthlyOrders,
+  profitThisTime,
+  sixMonthOrderPerCat,
   sixMonthOrders,
+  sixMonthOrdersSum,
   weeklyOrders,
 } from "../utils/getOrders";
 
@@ -75,40 +79,34 @@ const Dashboard = () => {
     queryFn: sixMonthOrders,
   });
 
-  console.log(orderSixMonths?.data[0].keuntungan);
+  const orderSixMonthsSum = useQuery({
+    queryKey: ["sixMonthOrdersSum"],
+    queryFn: sixMonthOrdersSum,
+  });
 
   const ordersThisMonth = useQuery({
     queryKey: ["monthlyOrders"],
     queryFn: monthlyOrders,
   });
-  const profitThisMonth = ordersThisMonth.data?.reduce((acc, cur) => {
-    return acc + cur.profit;
-  }, 0);
 
   const ordersThisWeek = useQuery({
     queryKey: ["weeklyOrders"],
     queryFn: weeklyOrders,
   });
-  const profitThisWeek = ordersThisWeek.data?.reduce((acc, cur) => {
-    return acc + cur.profit;
-  }, 0);
 
   const ordersThisDay = useQuery({
     queryKey: ["dailyOrders"],
     queryFn: dailyOrders,
   });
-  const profitThisDay = ordersThisDay.data?.reduce((acc, cur) => {
-    return acc + cur.profit;
-  }, 0);
 
   return (
     <div className="mt-16 w-full h-fit">
       <section className="w-full h-fit md:h-[150px] flex py-4 px-3 justify-center md:justify-start items-center">
         <div className="md:w-full md:h-full grid grid-cols-2 lg:grid-cols-4 gap-2">
           <Earnings time="Year" />
-          <Earnings time="Month" value={profitThisMonth} />
-          <Earnings time="Week" value={profitThisWeek} />
-          <Earnings time="day" value={profitThisDay} />
+          <Earnings time="Month" value={profitThisTime(ordersThisMonth)} />
+          <Earnings time="Week" value={profitThisTime(ordersThisWeek)} />
+          <Earnings time="day" value={profitThisTime(ordersThisDay)} />
         </div>
       </section>
       <section className="px-3 flex-col">
@@ -135,7 +133,11 @@ const Dashboard = () => {
                     label: "keuntungan",
                     backgroundColor: "teal",
                     borderColor: "teal",
-                    data: [0, 0, 0, 0, 0, orderSixMonths?.data[0].keuntungan],
+                    data: fitDataToMonth(
+                      orderSixMonths?.data?.map((dat) => {
+                        return dat.keuntungan;
+                      })
+                    ),
                   },
                 ],
               }}
@@ -151,35 +153,34 @@ const Dashboard = () => {
                 animation: { duration: 2000, easing: "easeOutExpo" },
               }}
               data={{
-                labels: [
-                  "Jun 23",
-                  "Jul 23",
-                  "Aug 23",
-                  "Sep 23",
-                  "Okt 23",
-                  "Nov 23",
-                ],
+                labels: months(),
                 datasets: [
                   {
                     id: 1,
                     label: "paket",
                     backgroundColor: "teal",
                     borderColor: "teal",
-                    data: [500, 100, 700, 400, 600, 200],
+                    data: fitDataToMonth(
+                      sixMonthOrderPerCat(orderSixMonthsSum, "paket")
+                    ),
                   },
                   {
                     id: 2,
                     label: "makan",
                     backgroundColor: "orange",
                     borderColor: "orange",
-                    data: [300, 600, 200, 600, 800, 400],
+                    data: fitDataToMonth(
+                      sixMonthOrderPerCat(orderSixMonthsSum, "makan")
+                    ),
                   },
                   {
                     id: 3,
                     label: "minum",
                     backgroundColor: "salmon",
                     borderColor: "salmon",
-                    data: [40, 500, 300, 500, 700, 100],
+                    data: fitDataToMonth(
+                      sixMonthOrderPerCat(orderSixMonthsSum, "minum")
+                    ),
                   },
                 ],
               }}
@@ -187,12 +188,6 @@ const Dashboard = () => {
           </div>
         </div>
       </section>
-      {/* <section className="w-full p-3 flex gap-x-3 overflow-scroll">
-        <Earnings time="Month" />
-        <Earnings time="Month" />
-        <Earnings time="Month" />
-        <Earnings time="Month" />
-      </section> */}
     </div>
   );
 };

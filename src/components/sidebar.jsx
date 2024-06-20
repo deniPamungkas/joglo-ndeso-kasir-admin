@@ -2,9 +2,11 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SsidChartIcon from "@mui/icons-material/SsidChart";
 import LogoutIcon from "@mui/icons-material/Logout";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import { useContext } from "react";
 import { Side } from "../context/sideContext";
 import { Link } from "react-router-dom";
+import { todayDate } from "../utils/getTodayDate";
 
 const SideBar = () => {
   const { value, setValue } = useContext(Side);
@@ -15,7 +17,7 @@ const SideBar = () => {
   return (
     <div className="w-[250px] h-screen bg-white p-3 lg:p-5 hidden md:block z-50">
       <div className="">
-        <h3 className="text-sm">Tue, 03 Dec</h3>
+        <h3 className="text-sm">{todayDate()}</h3>
         <h1 className="text-2xl font-bold">Hi, Joglo</h1>
       </div>
       <ul className="flex flex-col gap-y-5 py-10">
@@ -62,6 +64,22 @@ const SideBar = () => {
             style={value == "Sales" ? { color: "white" } : { color: "gray" }}
           />
           <span>Sales</span>
+        </Link>
+        <Link
+          to={"/playstation"}
+          onClick={handleClick}
+          id="Playstation"
+          className={`${
+            value == "Playstation" ? "bg-blue-500 text-white" : "text-gray-500"
+          } rounded-lg h-[50px] w-full flex justify-start px-3 font-semibold items-center gap-x-3 relative cursor-pointer`}
+        >
+          <div className="absolute top-0 right-0 left-0 bottom-0 z-10"></div>
+          <SportsEsportsIcon
+            style={
+              value == "Playstation" ? { color: "white" } : { color: "gray" }
+            }
+          />
+          <span>Playstation</span>
         </Link>
         <Link
           to={"/logout"}
