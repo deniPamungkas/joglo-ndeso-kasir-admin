@@ -131,7 +131,7 @@ const Sales = () => {
             </div>
           </div>
         </div>
-        <div className="w-full h-[483px] bg-white rounded-md"></div>
+        <div className="w-full h-[482px] bg-white rounded-md"></div>
         {/* <div className="grid grid-cols-11 gap-3">
           <div className="h-full w-full col-span-7 bg-white rounded-md py-2 px-3">
             <Line
