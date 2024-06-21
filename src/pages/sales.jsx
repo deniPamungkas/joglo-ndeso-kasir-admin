@@ -1,4 +1,3 @@
-import { Doughnut, Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -12,7 +11,6 @@ import {
   CategoryScale,
 } from "chart.js";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 const Sales = () => {
   ChartJS.register(
@@ -26,11 +24,14 @@ const Sales = () => {
     Title,
     CategoryScale
   );
-  // ChartJS.defaults.aspectRatio = false;
-  // ChartJS.defaults.responsive = false;
   ChartJS.defaults.plugins.legend.labels.boxWidth = 10;
   ChartJS.defaults.plugins.legend.labels.boxHeight = 10;
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(
+    `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(
+      2,
+      "0"
+    )}-${String(new Date().getDate()).padStart(2, "0")}`
+  );
   const [orderData, setOrderData] = useState(null);
   const handleDate = (e) => {
     setDate(e.target.value);
@@ -53,6 +54,7 @@ const Sales = () => {
     const filteredData = orderData?.filter((data) => {
       return data.category == cat;
     });
+    console.log(filteredData);
     return filteredData;
   };
   return (
@@ -68,6 +70,7 @@ const Sales = () => {
                 type="date"
                 name="tanggal"
                 id="tanggal"
+                value={date}
                 onChange={handleDate}
                 className="w-full outline-none pl-2 bg-gray-200 rounded-sm"
               />
@@ -86,7 +89,7 @@ const Sales = () => {
                 {orderData !== null
                   ? `Rp ${new Intl.NumberFormat("id-ID").format(
                       dataPerCat("makan").reduce((acc, cur) => {
-                        return acc + cur.price * cur.amount;
+                        return acc + cur.totalPrice;
                       }, 0)
                     )}`
                   : `Rp ${new Intl.NumberFormat("id-ID").format(0)}`}
@@ -98,7 +101,7 @@ const Sales = () => {
                 {orderData !== null
                   ? `Rp ${new Intl.NumberFormat("id-ID").format(
                       dataPerCat("minum").reduce((acc, cur) => {
-                        return acc + cur.price * cur.amount;
+                        return acc + cur.totalPrice;
                       }, 0)
                     )}`
                   : `Rp ${new Intl.NumberFormat("id-ID").format(0)}`}
@@ -110,7 +113,7 @@ const Sales = () => {
                 {orderData !== null
                   ? `Rp ${new Intl.NumberFormat("id-ID").format(
                       dataPerCat("paket").reduce((acc, cur) => {
-                        return acc + cur.price * cur.amount;
+                        return acc + cur.totalPrice;
                       }, 0)
                     )}`
                   : `Rp ${new Intl.NumberFormat("id-ID").format(0)}`}
@@ -123,7 +126,7 @@ const Sales = () => {
                 {orderData !== null
                   ? `Rp ${new Intl.NumberFormat("id-ID").format(
                       orderData?.reduce((acc, cur) => {
-                        return acc + cur.price * cur.amount;
+                        return acc + cur.totalPrice;
                       }, 0)
                     )}`
                   : `Rp ${new Intl.NumberFormat("id-ID").format(0)}`}
@@ -131,7 +134,20 @@ const Sales = () => {
             </div>
           </div>
         </div>
-        <div className="w-full h-[482px] bg-white rounded-md"></div>
+        <div className="w-full h-[482px] bg-white rounded-md">
+          <div className="">
+            <ul>
+              {orderData !== null &&
+                orderData.map((data) => {
+                  return (
+                    <li
+                      key={data._id.name}
+                    >{`${data._id.name} = ${data.qty}`}</li>
+                  );
+                })}
+            </ul>
+          </div>
+        </div>
         {/* <div className="grid grid-cols-11 gap-3">
           <div className="h-full w-full col-span-7 bg-white rounded-md py-2 px-3">
             <Line
