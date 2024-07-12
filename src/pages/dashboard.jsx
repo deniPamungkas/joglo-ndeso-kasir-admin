@@ -22,7 +22,9 @@ import {
   sixMonthOrderPerCat,
   sixMonthOrders,
   sixMonthOrdersSum,
+  sortByYearnMonth,
   weeklyOrders,
+  yearlyOrders,
 } from "../utils/getOrders";
 
 const Dashboard = () => {
@@ -84,6 +86,20 @@ const Dashboard = () => {
     queryFn: sixMonthOrdersSum,
   });
 
+  console.log(
+    sortByYearnMonth(
+      fitDataToMonth(sixMonthOrderPerCat(orderSixMonthsSum, "minum"))
+    )
+  );
+  // console.log(sixMonthOrderPerCat(orderSixMonthsSum, "paket"));
+  // console.log(orderSixMonthsSum.data);
+  // console.log(new Date().getMonth() + 1);
+
+  const ordersThisYear = useQuery({
+    queryKey: ["yearlyOrders"],
+    queryFn: yearlyOrders,
+  });
+
   const ordersThisMonth = useQuery({
     queryKey: ["monthlyOrders"],
     queryFn: monthlyOrders,
@@ -100,10 +116,10 @@ const Dashboard = () => {
   });
 
   return (
-    <div className="mt-16 w-full h-fit">
+    <div className="mt-16 w-full h-fit bg-gray-100 ">
       <section className="w-full h-fit md:h-[150px] flex py-4 px-3 justify-center md:justify-start items-center">
         <div className="md:w-full md:h-full grid grid-cols-2 lg:grid-cols-4 gap-2">
-          <Earnings time="Year" />
+          <Earnings time="Year" value={profitThisTime(ordersThisYear)} />
           <Earnings time="Month" value={profitThisTime(ordersThisMonth)} />
           <Earnings time="Week" value={profitThisTime(ordersThisWeek)} />
           <Earnings time="day" value={profitThisTime(ordersThisDay)} />
@@ -133,11 +149,7 @@ const Dashboard = () => {
                     label: "keuntungan",
                     backgroundColor: "teal",
                     borderColor: "teal",
-                    data: fitDataToMonth(
-                      orderSixMonths?.data?.map((dat) => {
-                        return dat.keuntungan;
-                      })
-                    ),
+                    data: [1],
                   },
                 ],
               }}
@@ -160,27 +172,39 @@ const Dashboard = () => {
                     label: "paket",
                     backgroundColor: "teal",
                     borderColor: "teal",
-                    data: fitDataToMonth(
-                      sixMonthOrderPerCat(orderSixMonthsSum, "paket")
-                    ),
+                    data: sortByYearnMonth(
+                      fitDataToMonth(
+                        sixMonthOrderPerCat(orderSixMonthsSum, "paket")
+                      )
+                    )?.map((data) => {
+                      return data.qty;
+                    }),
                   },
                   {
                     id: 2,
                     label: "makan",
                     backgroundColor: "orange",
                     borderColor: "orange",
-                    data: fitDataToMonth(
-                      sixMonthOrderPerCat(orderSixMonthsSum, "makan")
-                    ),
+                    data: sortByYearnMonth(
+                      fitDataToMonth(
+                        sixMonthOrderPerCat(orderSixMonthsSum, "makan")
+                      )
+                    )?.map((data) => {
+                      return data.qty;
+                    }),
                   },
                   {
                     id: 3,
                     label: "minum",
                     backgroundColor: "salmon",
                     borderColor: "salmon",
-                    data: fitDataToMonth(
-                      sixMonthOrderPerCat(orderSixMonthsSum, "minum")
-                    ),
+                    data: sortByYearnMonth(
+                      fitDataToMonth(
+                        sixMonthOrderPerCat(orderSixMonthsSum, "minum")
+                      )
+                    )?.map((data) => {
+                      return data.qty;
+                    }),
                   },
                 ],
               }}

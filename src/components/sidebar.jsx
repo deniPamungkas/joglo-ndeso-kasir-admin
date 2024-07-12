@@ -22,7 +22,7 @@ const SideBar = () => {
       </div>
       <ul className="flex flex-col gap-y-5 py-10">
         <Link
-          to={"/"}
+          to={"/admin"}
           onClick={handleClick}
           id="Dashboard"
           className={`${
@@ -38,7 +38,7 @@ const SideBar = () => {
           <span>Dashboard</span>
         </Link>
         <Link
-          to={"/products"}
+          to={"products"}
           onClick={handleClick}
           id="Products"
           className={`${
@@ -52,7 +52,7 @@ const SideBar = () => {
           <span>Products</span>
         </Link>
         <Link
-          to={"/sales"}
+          to={"sales"}
           onClick={handleClick}
           id="Sales"
           className={`${
@@ -66,7 +66,7 @@ const SideBar = () => {
           <span>Sales</span>
         </Link>
         <Link
-          to={"/playstation"}
+          to={"playstation"}
           onClick={handleClick}
           id="Playstation"
           className={`${
