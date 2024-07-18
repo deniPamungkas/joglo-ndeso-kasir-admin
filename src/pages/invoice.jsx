@@ -24,14 +24,14 @@ const Invoice = () => {
             withCredentials: true,
           }
         );
+        setName(result.data?.name);
         return result.data;
       } catch (error) {
         return error;
       }
     },
     mutationKey: ["invoiceNameMutation"],
-    onSuccess: (data) => {
-      setName(data.data?.name);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
     },
   });
