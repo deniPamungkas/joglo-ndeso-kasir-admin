@@ -66,6 +66,8 @@ const Invoice = () => {
         return result.data;
       } catch (error) {
         return error;
+      } finally {
+        setName(null);
       }
     },
     queryKey: ["invoices"],
