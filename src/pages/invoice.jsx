@@ -56,16 +56,18 @@ const Invoice = () => {
 
   const invoices = useQuery({
     queryFn: async () => {
-      try {
-        const result = await axios.get(
-          "http://localhost:5500/invoice?name=" + name,
-          {
-            withCredentials: true,
-          }
-        );
-        return result.data;
-      } catch (error) {
-        return error;
+      if (name != null) {
+        try {
+          const result = await axios.get(
+            "http://localhost:5500/invoice?name=" + name,
+            {
+              withCredentials: true,
+            }
+          );
+          return result.data;
+        } catch (error) {
+          return error;
+        }
       }
     },
     queryKey: ["invoices"],
