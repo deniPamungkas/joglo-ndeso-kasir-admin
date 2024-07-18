@@ -22,11 +22,12 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/playstation" element={<Playstation />} />
             <Route path="/pesanan" element={<Pesanan />} />
-            <Route path="/invoice" element={<Invoice />} />
+            <Route path="/invoice/:id" element={<Invoice />} />
             <Route path="/admin" element={<Layout />}>
               <Route path="" element={<Dashboard />} />
               <Route path="products" element={<Products />} />
               <Route path="sales" element={<Sales />} />
+              <Route path="playstation" element={<Playstation />} />
             </Route>
           </Routes>
         </BrowserRouter>

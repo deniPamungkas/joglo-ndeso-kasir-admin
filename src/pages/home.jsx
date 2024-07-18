@@ -2,8 +2,11 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Side } from "../context/sideContext";
 
 const Home = () => {
+  const { value } = useContext(Side);
   return (
     <div className="w-full h-screen flex-col md:flex-row flex justify-center items-center gap-3">
       <Link to={"/pesanan"}>
@@ -18,7 +21,14 @@ const Home = () => {
           <span>Playstation</span>
         </div>
       </Link>
-      <Link to={"/admin"}>
+      <Link
+        to={
+          (value == "Dashboard" && "/admin") ||
+          (value == "Products" && "/admin/products") ||
+          (value == "Sales" && "/admin/sales") ||
+          (value == "Playstation" && "/admin/playstation")
+        }
+      >
         <div className="w-[200px] h-[200px] shadow hover:shadow-2xl rounded-lg flex flex-col justify-center items-center bg-gradient-to-t from-[#23c4ea] to-[#667ee8] font-semibold text-2xl text-white">
           <DashboardIcon fontSize="large" />
           <span>Dashboard</span>

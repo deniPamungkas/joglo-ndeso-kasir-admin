@@ -81,17 +81,19 @@ const Dashboard = () => {
     queryFn: sixMonthOrders,
   });
 
+  console.log(orderSixMonths);
+
   const orderSixMonthsSum = useQuery({
     queryKey: ["sixMonthOrdersSum"],
     queryFn: sixMonthOrdersSum,
   });
 
-  console.log(
-    sortByYearnMonth(
-      fitDataToMonth(sixMonthOrderPerCat(orderSixMonthsSum, "minum"))
-    )
-  );
-  // console.log(sixMonthOrderPerCat(orderSixMonthsSum, "paket"));
+  // console.log(
+  //   sortByYearnMonth(
+  //     fitDataToMonth(sixMonthOrderPerCat(orderSixMonthsSum, "minum"))
+  //   )
+  // );
+  // console.log(sixMonthOrderPerCat(orderSixMonthsSum, "makan"));
   // console.log(orderSixMonthsSum.data);
   // console.log(new Date().getMonth() + 1);
 
@@ -116,7 +118,7 @@ const Dashboard = () => {
   });
 
   return (
-    <div className="mt-16 w-full h-fit bg-gray-100 ">
+    <div className=" w-full h-fit bg-gray-100 ">
       <section className="w-full h-fit md:h-[150px] flex py-4 px-3 justify-center md:justify-start items-center">
         <div className="md:w-full md:h-full grid grid-cols-2 lg:grid-cols-4 gap-2">
           <Earnings time="Year" value={profitThisTime(ordersThisYear)} />
@@ -129,7 +131,7 @@ const Dashboard = () => {
         <h1 className="text-xl font-bold mb-2">Analytics</h1>
         <div className="flex flex-col xl:flex-row gap-2">
           <div className="w-full h-fit bg-white rounded-md p-2">
-            <h1 className="font-semibold text-xl">Grafik Keuntungan</h1>
+            <h1 className="font-semibold text-xl">Grafik Pemasukan</h1>
             <Line
               datasetIdKey="se"
               options={{
@@ -146,10 +148,10 @@ const Dashboard = () => {
                 datasets: [
                   {
                     id: 1,
-                    label: "keuntungan",
+                    label: "Pemasukan",
                     backgroundColor: "teal",
                     borderColor: "teal",
-                    data: [1],
+                    data: [1, 2, 3, 4, 5, 6],
                   },
                 ],
               }}

@@ -41,7 +41,8 @@ const Sales = () => {
     try {
       const result = await axios.post(
         "http://localhost:5500/sales/get-orders-by-date",
-        { date: date }
+        { date: date },
+        { withCredentials: true }
       );
       setOrderData(result.data);
       return result;
@@ -54,11 +55,10 @@ const Sales = () => {
     const filteredData = orderData?.filter((data) => {
       return data.category == cat;
     });
-    console.log(filteredData);
     return filteredData;
   };
   return (
-    <div className="mt-16">
+    <div className="">
       <section className="w-full h-fit p-3 flex justify-between gap-x-3">
         <div className="flex flex-col gap-y-3 w-[400px]">
           <form
@@ -141,8 +141,8 @@ const Sales = () => {
                 orderData.map((data) => {
                   return (
                     <li
-                      key={data._id.name}
-                    >{`${data._id.name} = ${data.qty}`}</li>
+                      key={data.menuName}
+                    >{`${data.menuName} = ${data.amount}`}</li>
                   );
                 })}
             </ul>

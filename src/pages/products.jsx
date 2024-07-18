@@ -10,7 +10,6 @@ import { useFormik } from "formik";
 
 const Products = () => {
   const { open, setOpen } = useContext(NavContext);
-  const [err, setErr] = useState(false);
   const [edit, setEdit] = useState(false);
 
   const handleCloseModal = () => {
@@ -22,7 +21,6 @@ const Products = () => {
       category: "",
       price: "",
       profit: "",
-      photo: "",
     });
   };
 
@@ -35,7 +33,7 @@ const Products = () => {
   const { data, isLoading } = useQuery({
     queryFn: async () => {
       try {
-        const result = await axios.get("http://localhost:5174/products", {
+        const result = await axios.get("http://localhost:5500/products", {
           withCredentials: true,
         });
         return result.data;
@@ -47,13 +45,18 @@ const Products = () => {
   });
 
   const productMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (item) => {
       if (edit) {
-        const item = JSON.parse(window.localStorage.getItem("item"));
         try {
           const edit = await axios.patch(
-            "http://localhost:5174/products/" + item.name,
-            formik.values
+            "http://localhost:5500/products/" + item.id,
+            {
+              name: item.name,
+              category: item.category,
+              price: item.price,
+              profit: item.profit,
+            },
+            { withCredentials: true }
           );
           setOpen(false);
           setEdit(false);
@@ -62,7 +65,6 @@ const Products = () => {
             category: "",
             price: "",
             profit: "",
-            photo: "",
           });
           Swal.fire({
             position: "center",
@@ -74,6 +76,7 @@ const Products = () => {
           window.localStorage.removeItem("item");
           return edit;
         } catch (error) {
+          console.log(error);
           setOpen(false);
           setEdit(false);
           formik.setValues({
@@ -81,7 +84,6 @@ const Products = () => {
             category: "",
             price: "",
             profit: "",
-            photo: "",
           });
           Swal.fire({
             position: "center",
@@ -95,8 +97,9 @@ const Products = () => {
       } else {
         try {
           const result = await axios.post(
-            "http://localhost:5174/products",
-            formik.values
+            "http://localhost:5500/products",
+            formik.values,
+            { withCredentials: true }
           );
           console.log(formik.values);
           setOpen(false);
@@ -106,7 +109,6 @@ const Products = () => {
             category: "",
             price: "",
             profit: "",
-            photo: "",
           });
           Swal.fire({
             position: "center",
@@ -125,7 +127,6 @@ const Products = () => {
             category: "",
             price: "",
             profit: "",
-            photo: "",
           });
           Swal.fire({
             position: "center",
@@ -162,7 +163,7 @@ const Products = () => {
   });
 
   const handleSubmit = async () => {
-    productMutation.mutate();
+    productMutation.mutate(formik.values);
   };
 
   const formik = useFormik({
@@ -171,7 +172,6 @@ const Products = () => {
       category: "",
       price: "",
       profit: "",
-      photo: "",
     },
     onSubmit: handleSubmit,
   });
@@ -207,34 +207,30 @@ const Products = () => {
       setEdit(true);
       const editMenu =
         e.target.parentElement.parentElement.parentElement.parentElement.id;
-      axios
-        .post("http://localhost:5500/products/editProduct", {
-          name: editMenu,
-        })
-        .then((res) => {
-          const { data } = res;
-          window.localStorage.setItem("item", JSON.stringify(data));
-          formik.setValues({
-            name: data.name,
-            category: data.category,
-            price: data.price,
-            profit: data.profit,
-            photo: data.photo,
-          });
-        });
+      const dataToEdit = data.filter((menu) => {
+        return menu.name == editMenu;
+      })[0];
+      formik.setValues({
+        name: dataToEdit.name,
+        category: dataToEdit.category,
+        price: dataToEdit.price,
+        profit: dataToEdit.profit,
+        id: dataToEdit._id,
+      });
+
       return setOpen(true);
     } catch (error) {
-      return console.log(error);
+      return error;
     }
   };
   return (
     <div className="w-full h-screen p-3">
-      <div className="mt-16 w-full h-[510px] overflow-scroll relative">
+      <div className=" w-full h-[510px] overflow-scroll relative">
         {isLoading ? (
           <div className="m-auto font-bold text-5xl">loading</div>
         ) : (
-          <table className="bg-white rounded-md w-full text-sm xl:text-base">
-            <thead className="border-b-2 sticky top-0 z-20 bg-blue-500 text-white text-xs">
+          <table className="bg-white rounded-md w-full text-sm lg:text-lg">
+            <thead className="border-b-2 sticky top-0 z-20 bg-blue-500 text-white text-xs md:text-sm lg:text-base">
               <tr>
                 <th className="text-start px-4 py-2 xl:py-4">Name</th>
                 <th className="text-start px-4 py-2 xl:py-4 flex flex-col xl:flex-row gap-x-2">
@@ -259,7 +255,7 @@ const Products = () => {
                 <tr
                   key={item.name}
                   id={item.name}
-                  className="odd:bg-white even:bg-slate-200 h-[50px] text-[10px]"
+                  className="odd:bg-white even:bg-slate-200 h-[50px] text-[10px] md:text-sm lg:text-base"
                 >
                   <td className="px-4 py-2 xl:py-4">{item.name}</td>
                   <td className="px-4 py-2 xl:py-4">{item.category}</td>
@@ -272,20 +268,20 @@ const Products = () => {
                         className="flex justify-center items-center relative cursor-pointer"
                         onClick={handleEditMenu}
                       >
-                        <div className="absolute top-0 right-0 left-0 bottom-0 z-10 bg-transparent"></div>
+                        <div className="absolute top-0 right-0 left-0 bottom-0 z-10 bg-transparent text-[10px] md:text-sm lg:text-base"></div>
                         <FiEdit
-                          style={{ color: "#0b8003", fontSize: "10px" }}
+                          style={{ color: "#0b8003", fontSize: "inherit" }}
                         />
                       </div>
                       <div
                         className="flex justify-center items-center relative cursor-pointer"
                         onClick={deleteProduct}
                       >
-                        <div className="absolute top-0 right-0 left-0 bottom-0 z-10 bg-transparent"></div>
+                        <div className="absolute top-0 right-0 left-0 bottom-0 z-10 bg-transparent text-[10px] md:text-sm lg:text-base"></div>
                         <DeleteIcon
                           style={{
                             color: "#b50b0b",
-                            fontSize: "small",
+                            fontSize: "inherit",
                             cursor: "pointer",
                           }}
                         />

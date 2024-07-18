@@ -11,17 +11,19 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       setLoading(true);
-      await axios.post("http://localhost:5500/login", formikLogin.values, {
+      await axios.post("http://localhost:5500/auth/login", formikLogin.values, {
         withCredentials: true,
       });
       navigate("/home");
     } catch (error) {
       setLoading(true);
+      if (error.response?.status == 409) {
+        navigate("/home");
+      }
       console.log(error);
     } finally {
       setLoading(false);
     }
-    console.log(formikLogin.values);
   };
 
   const handleChange = (e) => {
@@ -73,7 +75,6 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          onClick={() => {}}
           className={`${
             loading
               ? "bg-gray-500"

@@ -137,7 +137,7 @@ export const fitDataToMonth = (data) => {
 export const profitThisTime = (jangka) => {
   try {
     const profit = jangka.data?.reduce((acc, cur) => {
-      return acc + cur.keuntungan;
+      return acc + cur.pemasukan;
     }, 0);
     return profit;
   } catch (error) {

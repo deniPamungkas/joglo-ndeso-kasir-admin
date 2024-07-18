@@ -8,13 +8,12 @@ import { NavContext } from "../context/navContext";
 const Navbar = () => {
   const { value } = useContext(Side);
   const { setOpen } = useContext(NavContext);
-
   const handleOpenModal = () => {
     setOpen(true);
   };
 
   return (
-    <nav className="bg-white w-full h-16 flex justify-between items-center px-3 absolute">
+    <nav className="bg-white w-full h-16 flex justify-between items-center px-3 sticky top-0">
       <div className="flex gap-x-3 items-center justify-normal">
         <span className="md:hidden">
           <MenuIcon />

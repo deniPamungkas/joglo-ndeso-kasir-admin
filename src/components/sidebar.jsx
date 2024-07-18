@@ -3,6 +3,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SsidChartIcon from "@mui/icons-material/SsidChart";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import HomeIcon from "@mui/icons-material/Home";
 import { useContext } from "react";
 import { Side } from "../context/sideContext";
 import { Link } from "react-router-dom";
@@ -82,17 +83,21 @@ const SideBar = () => {
           <span>Playstation</span>
         </Link>
         <Link
-          to={"/logout"}
-          onClick={handleClick}
-          id="Logout"
-          className={`${
-            value == "Logout" ? "bg-blue-500 text-white" : "text-gray-500"
-          } rounded-lg h-[50px] w-full flex justify-start px-3 font-semibold items-center gap-x-3 relative cursor-pointer`}
+          to={"/home"}
+          id="Home"
+          className={`bg-gray-500 text-white rounded-lg h-[40px] w-full flex justify-start px-3 font-semibold items-center gap-x-3 relative cursor-pointer`}
         >
           <div className="absolute top-0 right-0 left-0 bottom-0 z-10"></div>
-          <LogoutIcon
-            style={value == "Logout" ? { color: "white" } : { color: "gray" }}
-          />
+          <HomeIcon style={{ color: "white" }} />
+          <span>Home</span>
+        </Link>
+        <Link
+          to={"/logout"}
+          id="Logout"
+          className={` bg-gray-500 text-white rounded-lg h-[40px] w-full flex justify-start px-3 font-semibold items-center gap-x-3 relative cursor-pointer`}
+        >
+          <div className="absolute top-0 right-0 left-0 bottom-0 z-10"></div>
+          <LogoutIcon style={{ color: "white" }} />
           <span>Log Out</span>
         </Link>
       </ul>
