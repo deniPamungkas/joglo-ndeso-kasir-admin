@@ -1,5 +1,4 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { useContext, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import axios from "axios";
@@ -8,11 +7,9 @@ import { Modal } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 
 const Products = () => {
   const { open, setOpen } = useContext(NavContext);
-  const [err, setErr] = useState(false);
   const [edit, setEdit] = useState(false);
 
   const handleCloseModal = () => {
@@ -24,7 +21,6 @@ const Products = () => {
       category: "",
       price: "",
       profit: "",
-      photo: "",
     });
   };
 
@@ -37,10 +33,9 @@ const Products = () => {
   const { data, isLoading } = useQuery({
     queryFn: async () => {
       try {
-        const result = await axios.get(
-          "https://joglo-ndeso-kasir-api.vercel.app/admin/v1/getAllProducts",
-          { withCredentials: true }
-        );
+        const result = await axios.get("http://localhost:5500/products", {
+          withCredentials: true,
+        });
         return result.data;
       } catch (error) {
         return error;
@@ -50,14 +45,18 @@ const Products = () => {
   });
 
   const productMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (item) => {
       if (edit) {
-        const item = JSON.parse(window.localStorage.getItem("item"));
         try {
           const edit = await axios.patch(
-            "https://joglo-ndeso-kasir-api.vercel.app/admin/v1/updateProduct/" +
-              item.name,
-            formik.values
+            "http://localhost:5500/products/" + item.id,
+            {
+              name: item.name,
+              category: item.category,
+              price: item.price,
+              profit: item.profit,
+            },
+            { withCredentials: true }
           );
           setOpen(false);
           setEdit(false);
@@ -66,7 +65,6 @@ const Products = () => {
             category: "",
             price: "",
             profit: "",
-            photo: "",
           });
           Swal.fire({
             position: "center",
@@ -78,6 +76,7 @@ const Products = () => {
           window.localStorage.removeItem("item");
           return edit;
         } catch (error) {
+          console.log(error);
           setOpen(false);
           setEdit(false);
           formik.setValues({
@@ -85,7 +84,6 @@ const Products = () => {
             category: "",
             price: "",
             profit: "",
-            photo: "",
           });
           Swal.fire({
             position: "center",
@@ -99,8 +97,9 @@ const Products = () => {
       } else {
         try {
           const result = await axios.post(
-            "https://joglo-ndeso-kasir-api.vercel.app/admin/v1/addNewMenu",
-            formik.values
+            "http://localhost:5500/products",
+            formik.values,
+            { withCredentials: true }
           );
           console.log(formik.values);
           setOpen(false);
@@ -110,7 +109,6 @@ const Products = () => {
             category: "",
             price: "",
             profit: "",
-            photo: "",
           });
           Swal.fire({
             position: "center",
@@ -129,7 +127,6 @@ const Products = () => {
             category: "",
             price: "",
             profit: "",
-            photo: "",
           });
           Swal.fire({
             position: "center",
@@ -151,10 +148,9 @@ const Products = () => {
   const deleteProductMutation = useMutation({
     mutationFn: async (prodId) => {
       try {
-        const response = await axios.post(
-          "https://joglo-ndeso-kasir-api.vercel.app/admin/v1/deleteProduct",
-          { name: prodId }
-        );
+        const response = await axios.delete("http://localhost:5500/products", {
+          name: prodId,
+        });
         console.log(response);
         return response;
       } catch (error) {
@@ -167,7 +163,7 @@ const Products = () => {
   });
 
   const handleSubmit = async () => {
-    productMutation.mutate();
+    productMutation.mutate(formik.values);
   };
 
   const formik = useFormik({
@@ -176,7 +172,6 @@ const Products = () => {
       category: "",
       price: "",
       profit: "",
-      photo: "",
     },
     onSubmit: handleSubmit,
   });
@@ -212,34 +207,30 @@ const Products = () => {
       setEdit(true);
       const editMenu =
         e.target.parentElement.parentElement.parentElement.parentElement.id;
-      axios
-        .post("https://joglo-ndeso-kasir-api.vercel.app/admin/v1/editProduct", {
-          name: editMenu,
-        })
-        .then((res) => {
-          const { data } = res;
-          window.localStorage.setItem("item", JSON.stringify(data));
-          formik.setValues({
-            name: data.name,
-            category: data.category,
-            price: data.price,
-            profit: data.profit,
-            photo: data.photo,
-          });
-        });
+      const dataToEdit = data.filter((menu) => {
+        return menu.name == editMenu;
+      })[0];
+      formik.setValues({
+        name: dataToEdit.name,
+        category: dataToEdit.category,
+        price: dataToEdit.price,
+        profit: dataToEdit.profit,
+        id: dataToEdit._id,
+      });
+
       return setOpen(true);
     } catch (error) {
-      return console.log(error);
+      return error;
     }
   };
   return (
     <div className="w-full h-screen p-3">
-      <div className="mt-16 w-full h-[510px] overflow-scroll relative">
+      <div className=" w-full h-[510px] overflow-scroll relative">
         {isLoading ? (
           <div className="m-auto font-bold text-5xl">loading</div>
         ) : (
-          <table className="bg-white rounded-md w-full text-sm xl:text-base">
-            <thead className="border-b-2 sticky top-0 z-20 bg-blue-500 text-white">
+          <table className="bg-white rounded-md w-full text-sm lg:text-lg">
+            <thead className="border-b-2 sticky top-0 z-20 bg-blue-500 text-white text-xs md:text-sm lg:text-base">
               <tr>
                 <th className="text-start px-4 py-2 xl:py-4">Name</th>
                 <th className="text-start px-4 py-2 xl:py-4 flex flex-col xl:flex-row gap-x-2">
@@ -256,35 +247,41 @@ const Products = () => {
                   </select>
                 </th>
                 <th className="text-start px-4 py-2 xl:py-4">Price</th>
-                <th className="text-start px-4 py-2 xl:py-4">Profit</th>
                 <th className="text-start px-4 py-2 xl:py-4">Action</th>
               </tr>
             </thead>
             <tbody className="">
               {data?.map((item) => (
-                <tr key={item.name} id={item.name}>
+                <tr
+                  key={item.name}
+                  id={item.name}
+                  className="odd:bg-white even:bg-slate-200 h-[50px] text-[10px] md:text-sm lg:text-base"
+                >
                   <td className="px-4 py-2 xl:py-4">{item.name}</td>
                   <td className="px-4 py-2 xl:py-4">{item.category}</td>
-                  <td className="px-4 py-2 xl:py-4">{item.price}</td>
-                  <td className="px-4 py-2 xl:py-4">{item.profit}</td>
+                  <td className="px-4 py-2 xl:py-4">{`Rp. ${new Intl.NumberFormat(
+                    "id-ID"
+                  ).format(item.price)}`}</td>
                   <td className="px-4 py-2 xl:py-4 text-center">
                     <div className="flex gap-x-2">
                       <div
                         className="flex justify-center items-center relative cursor-pointer"
                         onClick={handleEditMenu}
                       >
-                        <div className="absolute top-0 right-0 left-0 bottom-0 z-10 bg-transparent"></div>
-                        <FiEdit style={{ color: "#0b8003" }} />
+                        <div className="absolute top-0 right-0 left-0 bottom-0 z-10 bg-transparent text-[10px] md:text-sm lg:text-base"></div>
+                        <FiEdit
+                          style={{ color: "#0b8003", fontSize: "inherit" }}
+                        />
                       </div>
                       <div
-                        className="relative cursor-pointer"
+                        className="flex justify-center items-center relative cursor-pointer"
                         onClick={deleteProduct}
                       >
-                        <div className="absolute top-0 right-0 left-0 bottom-0 z-10 bg-transparent"></div>
+                        <div className="absolute top-0 right-0 left-0 bottom-0 z-10 bg-transparent text-[10px] md:text-sm lg:text-base"></div>
                         <DeleteIcon
                           style={{
                             color: "#b50b0b",
-                            fontSize: "large",
+                            fontSize: "inherit",
                             cursor: "pointer",
                           }}
                         />
@@ -298,7 +295,7 @@ const Products = () => {
         )}
       </div>
       <Modal open={open}>
-        <div className="w-[700px] h-[500px] outline-none bg-white rounded-md absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] p-7 flex flex-col justify-center gap-y-14">
+        <div className="w-screen md:w-[700px] h-[500px] outline-none bg-white rounded-md absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] p-7 flex flex-col justify-center gap-y-14">
           <h1 className="text-center text-2xl font-semibold">
             {edit ? "EDIT PRODUCT" : "ADD NEW PRODUCT"}
           </h1>
