@@ -24,14 +24,14 @@ const Invoice = () => {
             withCredentials: true,
           }
         );
-        setName(result.data?.name);
         return result.data;
       } catch (error) {
         return error;
       }
     },
     mutationKey: ["invoiceNameMutation"],
-    onSuccess: () => {
+    onSuccess: (data) => {
+      setName(data?.data?.name);
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
     },
   });
@@ -56,24 +56,21 @@ const Invoice = () => {
 
   const invoices = useQuery({
     queryFn: async () => {
-      if (name != null) {
-        try {
-          const result = await axios.get(
-            "http://localhost:5500/invoice?name=" + name,
-            {
-              withCredentials: true,
-            }
-          );
-          return result.data;
-        } catch (error) {
-          return error;
-        }
+      try {
+        const result = await axios.get(
+          "http://localhost:5500/invoice?name=" + name,
+          {
+            withCredentials: true,
+          }
+        );
+        return result.data;
+      } catch (error) {
+        return error;
       }
     },
     queryKey: ["invoices"],
+    enabled: name != null,
   });
-
-  console.log(name);
 
   const addInvoiceMutation = useMutation({
     mutationFn: async (item) => {
