@@ -71,6 +71,8 @@ const Invoice = () => {
     queryKey: ["invoices"],
   });
 
+  console.log(invoices.data);
+
   const addInvoiceMutation = useMutation({
     mutationFn: async (item) => {
       try {
