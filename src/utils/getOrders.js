@@ -4,7 +4,7 @@ import axios from "axios";
 export const allOrders = async () => {
   try {
     const result = await axios.get(
-      "https://joglo-ndeso-kasir-admin.vercel.app/sales",
+      "https://joglo-ndeso-kasir-api.vercel.app/sales",
       {
         withCredentials: true,
       }
@@ -19,7 +19,7 @@ export const allOrders = async () => {
 export const sixMonthOrders = async () => {
   try {
     const result = await axios.get(
-      "https://joglo-ndeso-kasir-admin.vercel.app/sales/six-month",
+      "https://joglo-ndeso-kasir-api.vercel.app/sales/six-month",
       {
         withCredentials: true,
       }
@@ -34,7 +34,7 @@ export const sixMonthOrders = async () => {
 export const sixMonthOrdersSum = async () => {
   try {
     const result = await axios.get(
-      "https://joglo-ndeso-kasir-admin.vercel.app/sales/sixx-month",
+      "https://joglo-ndeso-kasir-api.vercel.app/sales/sixx-month",
       {
         withCredentials: true,
       }
@@ -50,7 +50,7 @@ export const sixMonthOrdersSum = async () => {
 export const yearlyOrders = async () => {
   try {
     const result = await axios.get(
-      "https://joglo-ndeso-kasir-admin.vercel.app/sales/this-year",
+      "https://joglo-ndeso-kasir-api.vercel.app/sales/this-year",
       {
         withCredentials: true,
       }
@@ -66,7 +66,7 @@ export const yearlyOrders = async () => {
 export const monthlyOrders = async () => {
   try {
     const result = await axios.get(
-      "https://joglo-ndeso-kasir-admin.vercel.app/sales/this-month",
+      "https://joglo-ndeso-kasir-api.vercel.app/sales/this-month",
       {
         withCredentials: true,
       }
@@ -82,7 +82,7 @@ export const monthlyOrders = async () => {
 export const weeklyOrders = async () => {
   try {
     const result = await axios.get(
-      "https://joglo-ndeso-kasir-admin.vercel.app/sales/this-week",
+      "https://joglo-ndeso-kasir-api.vercel.app/sales/this-week",
       {
         withCredentials: true,
       }
@@ -98,7 +98,7 @@ export const weeklyOrders = async () => {
 export const dailyOrders = async () => {
   try {
     const result = await axios.get(
-      "https://joglo-ndeso-kasir-admin.vercel.app/sales/this-day",
+      "https://joglo-ndeso-kasir-api.vercel.app/sales/this-day",
       {
         withCredentials: true,
       }

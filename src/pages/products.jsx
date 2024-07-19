@@ -34,7 +34,7 @@ const Products = () => {
     queryFn: async () => {
       try {
         const result = await axios.get(
-          "https://joglo-ndeso-kasir-admin.vercel.app/products",
+          "https://joglo-ndeso-kasir-api.vercel.app/products",
           {
             withCredentials: true,
           }
@@ -52,7 +52,7 @@ const Products = () => {
       if (edit) {
         try {
           const edit = await axios.patch(
-            "https://joglo-ndeso-kasir-admin.vercel.app/products/" + item.id,
+            "https://joglo-ndeso-kasir-api.vercel.app/products/" + item.id,
             {
               name: item.name,
               category: item.category,
@@ -100,7 +100,7 @@ const Products = () => {
       } else {
         try {
           const result = await axios.post(
-            "https://joglo-ndeso-kasir-admin.vercel.app/products",
+            "https://joglo-ndeso-kasir-api.vercel.app/products",
             formik.values,
             { withCredentials: true }
           );
@@ -152,7 +152,7 @@ const Products = () => {
     mutationFn: async (prodId) => {
       try {
         const response = await axios.delete(
-          "https://joglo-ndeso-kasir-admin.vercel.app/products",
+          "https://joglo-ndeso-kasir-api.vercel.app/products",
           {
             name: prodId,
           }

@@ -12,7 +12,7 @@ const Login = () => {
     try {
       setLoading(true);
       await axios.post(
-        "https://joglo-ndeso-kasir-admin.vercel.app/auth/login",
+        "https://joglo-ndeso-kasir-api.vercel.app/auth/login",
         formikLogin.values,
         {
           withCredentials: true,

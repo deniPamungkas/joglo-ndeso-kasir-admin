@@ -19,7 +19,7 @@ const Invoice = () => {
     mutationFn: async () => {
       try {
         const result = await axios.get(
-          "https://joglo-ndeso-kasir-admin.vercel.app/invoice/invoice-name/" +
+          "https://joglo-ndeso-kasir-api.vercel.app/invoice/invoice-name/" +
             params.id,
           {
             withCredentials: true,
@@ -45,7 +45,7 @@ const Invoice = () => {
     queryFn: async () => {
       try {
         const result = await axios.get(
-          "https://joglo-ndeso-kasir-admin.vercel.app/products",
+          "https://joglo-ndeso-kasir-api.vercel.app/products",
           {
             withCredentials: true,
           }
@@ -62,7 +62,7 @@ const Invoice = () => {
     queryFn: async () => {
       try {
         const result = await axios.get(
-          "https://joglo-ndeso-kasir-admin.vercel.app/invoice?name=" + name,
+          "https://joglo-ndeso-kasir-api.vercel.app/invoice?name=" + name,
           {
             withCredentials: true,
           }
@@ -83,7 +83,7 @@ const Invoice = () => {
     mutationFn: async (item) => {
       try {
         const result = await axios.post(
-          "https://joglo-ndeso-kasir-admin.vercel.app/invoice",
+          "https://joglo-ndeso-kasir-api.vercel.app/invoice",
           item,
           {
             withCredentials: true,
@@ -107,14 +107,14 @@ const Invoice = () => {
       try {
         if (item.amount > 1) {
           const result = await axios.patch(
-            "https://joglo-ndeso-kasir-admin.vercel.app/invoice",
+            "https://joglo-ndeso-kasir-api.vercel.app/invoice",
             item,
             { withCredentials: true }
           );
           return result;
         } else {
           const result = await axios.delete(
-            "https://joglo-ndeso-kasir-admin.vercel.app/invoice?id=" + item.id,
+            "https://joglo-ndeso-kasir-api.vercel.app/invoice?id=" + item.id,
             { withCredentials: true }
           );
           return result;
@@ -179,7 +179,7 @@ const Invoice = () => {
         if (item.isConfirmed) {
           try {
             const result = await axios.delete(
-              "https://joglo-ndeso-kasir-admin.vercel.app/invoice/invoice-name?id=" +
+              "https://joglo-ndeso-kasir-api.vercel.app/invoice/invoice-name?id=" +
                 params.id,
               { withCredentials: true }
             );
@@ -233,12 +233,12 @@ const Invoice = () => {
                   return { name, menuName, category, amount, price };
                 });
                 const bayarInvoice = await axios.post(
-                  "https://joglo-ndeso-kasir-admin.vercel.app/orders",
+                  "https://joglo-ndeso-kasir-api.vercel.app/orders",
                   { data: order },
                   { withCredentials: true }
                 );
                 await axios.delete(
-                  "https://joglo-ndeso-kasir-admin.vercel.app/invoice/invoice-name?id=" +
+                  "https://joglo-ndeso-kasir-api.vercel.app/invoice/invoice-name?id=" +
                     params.id,
                   { withCredentials: true }
                 );
@@ -269,7 +269,7 @@ const Invoice = () => {
     // onSuccess: async () => {
     //   try {
     //     const result = await axios.delete(
-    //       "https://joglo-ndeso-kasir-admin.vercel.app/invoice/invoice-name?id=" + params.id,
+    //       "https://joglo-ndeso-kasir-api.vercel.app/invoice/invoice-name?id=" + params.id,
     //       { withCredentials: true }
     //     );
     //     return result;

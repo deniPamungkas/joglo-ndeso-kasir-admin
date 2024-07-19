@@ -3,7 +3,7 @@ import axios from "axios";
 const Cek = () => {
   const asd = async () => {
     const res = await axios.get(
-      "https://joglo-ndeso-kasir-admin.vercel.app/v1/cek/prod"
+      "https://joglo-ndeso-kasir-api.vercel.app/v1/cek/prod"
     );
     console.log(res);
     return res;
