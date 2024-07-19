@@ -81,8 +81,6 @@ const Dashboard = () => {
     queryFn: sixMonthOrders,
   });
 
-  console.log(orderSixMonths);
-
   const orderSixMonthsSum = useQuery({
     queryKey: ["sixMonthOrdersSum"],
     queryFn: sixMonthOrdersSum,

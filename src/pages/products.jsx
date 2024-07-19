@@ -149,12 +149,13 @@ const Products = () => {
   });
 
   const deleteProductMutation = useMutation({
-    mutationFn: async (prodId) => {
+    mutationFn: async (productName) => {
       try {
         const response = await axios.delete(
-          "https://joglo-ndeso-kasir-api.vercel.app/products",
+          "https://joglo-ndeso-kasir-api.vercel.app/products?name=" +
+            productName,
           {
-            name: prodId,
+            withCredentials: true,
           }
         );
         console.log(response);
