@@ -22,7 +22,7 @@ const Pesanan = () => {
       try {
         setLoading(true);
         const name = await axios.get(
-          `http://localhost:5500/invoice/invoice-name?name=${invoiceNameDebounce}`,
+          `https://joglo-ndeso-kasir-admin.vercel.app/invoice/invoice-name?name=${invoiceNameDebounce}`,
           { withCredentials: true }
         );
         setResponseError(name);
@@ -42,7 +42,7 @@ const Pesanan = () => {
     queryFn: async () => {
       try {
         const result = await axios.get(
-          "http://localhost:5500/invoice/invoice-names",
+          "https://joglo-ndeso-kasir-admin.vercel.app/invoice/invoice-names",
           {
             withCredentials: true,
           }
@@ -60,7 +60,7 @@ const Pesanan = () => {
       if (responseError.status == 200) {
         try {
           const newInvoiceName = await axios.post(
-            `http://localhost:5500/invoice/invoice-name`,
+            `https://joglo-ndeso-kasir-admin.vercel.app/invoice/invoice-name`,
             { name: invoiceNameDebounce },
             { withCredentials: true }
           );

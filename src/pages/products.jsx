@@ -33,9 +33,12 @@ const Products = () => {
   const { data, isLoading } = useQuery({
     queryFn: async () => {
       try {
-        const result = await axios.get("http://localhost:5500/products", {
-          withCredentials: true,
-        });
+        const result = await axios.get(
+          "https://joglo-ndeso-kasir-admin.vercel.app/products",
+          {
+            withCredentials: true,
+          }
+        );
         return result.data;
       } catch (error) {
         return error;
@@ -49,7 +52,7 @@ const Products = () => {
       if (edit) {
         try {
           const edit = await axios.patch(
-            "http://localhost:5500/products/" + item.id,
+            "https://joglo-ndeso-kasir-admin.vercel.app/products/" + item.id,
             {
               name: item.name,
               category: item.category,
@@ -97,7 +100,7 @@ const Products = () => {
       } else {
         try {
           const result = await axios.post(
-            "http://localhost:5500/products",
+            "https://joglo-ndeso-kasir-admin.vercel.app/products",
             formik.values,
             { withCredentials: true }
           );
@@ -148,9 +151,12 @@ const Products = () => {
   const deleteProductMutation = useMutation({
     mutationFn: async (prodId) => {
       try {
-        const response = await axios.delete("http://localhost:5500/products", {
-          name: prodId,
-        });
+        const response = await axios.delete(
+          "https://joglo-ndeso-kasir-admin.vercel.app/products",
+          {
+            name: prodId,
+          }
+        );
         console.log(response);
         return response;
       } catch (error) {
