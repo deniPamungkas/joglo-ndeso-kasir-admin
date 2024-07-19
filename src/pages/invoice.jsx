@@ -66,13 +66,14 @@ const Invoice = () => {
         return result.data;
       } catch (error) {
         return error;
-      } finally {
-        setName(null);
       }
     },
+    staleTime: 0,
     queryKey: ["invoices"],
     enabled: name != null,
   });
+
+  console.log(invoices.data);
 
   const addInvoiceMutation = useMutation({
     mutationFn: async (item) => {
