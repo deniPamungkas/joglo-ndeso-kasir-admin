@@ -83,7 +83,7 @@ const SideBar = () => {
           <span>Playstation</span>
         </Link>
         <Link
-          to={"/home"}
+          to={"/"}
           id="Home"
           className={`bg-gray-500 text-white rounded-lg h-[40px] w-full flex justify-start px-3 font-semibold items-center gap-x-3 relative cursor-pointer`}
         >

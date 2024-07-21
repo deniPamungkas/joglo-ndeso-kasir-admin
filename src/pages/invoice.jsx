@@ -77,8 +77,6 @@ const Invoice = () => {
     enabled: name != null,
   });
 
-  console.log(invoices.data);
-
   const addInvoiceMutation = useMutation({
     mutationFn: async (item) => {
       try {
@@ -281,7 +279,7 @@ const Invoice = () => {
   });
 
   return (
-    <div className="bg-gray-100 min-h-screen px-3">
+    <div className="bg-gray-100 min-h-screen px-3 py-3">
       <div className="w-full h-[50px] bg-white flex justify-center items-center text-xl font-semibold rounded-lg">
         <h1>
           {invoiceNameMutation.isPending

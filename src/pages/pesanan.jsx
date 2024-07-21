@@ -86,22 +86,22 @@ const Pesanan = () => {
 
   return (
     <>
-      <div className="px-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-6 py-6">
-        <Link to={"/home"}>
-          <div className="w-[170px] h-[170px] m-auto border cursor-pointer border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center">
+      <div className="px-4 py-4 gap-4 md:px-5 md:py-6 md:gap-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 ">
+        <Link to={"/"}>
+          <div className="w-[150px] h-[150px] md:w-[170px] md:h-[170px] m-auto border cursor-pointer border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center">
             <HomeOutlinedIcon fontSize="large" />
           </div>
         </Link>
         <div
           onClick={() => setOpenModal(true)}
-          className="w-[170px] h-[170px] m-auto border cursor-pointer border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center"
+          className="w-[150px] h-[150px] md:w-[170px] md:h-[170px] m-auto border cursor-pointer border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center"
         >
           <AddIcon fontSize="large" />
         </div>
         {allInvoices?.data?.data?.map((invoice) => {
           return (
             <Link to={`/invoice/${invoice._id}`} key={invoice.name}>
-              <div className="w-[170px] h-[170px] m-auto border border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center font-semibold text-2xl">
+              <div className="w-[150px] h-[150px] md:w-[170px] md:h-[170px] m-auto border border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center font-semibold text-2xl">
                 <span>{invoice.name}</span>
               </div>
             </Link>

@@ -18,11 +18,11 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       setLoading(true);
       if (error.response?.status == 409) {
-        navigate("/home");
+        navigate("/");
       } else {
         console.log(error);
       }

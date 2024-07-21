@@ -626,10 +626,6 @@ video {
   margin-right: 0.5rem;
 }
 
-.mt-16 {
-  margin-top: 4rem;
-}
-
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -731,6 +727,14 @@ video {
   height: 100vh;
 }
 
+.h-\[130px\] {
+  height: 130px;
+}
+
+.h-\[150px\] {
+  height: 150px;
+}
+
 .min-h-\[100px\] {
   min-height: 100px;
 }
@@ -805,6 +809,10 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[150px\] {
+  width: 150px;
 }
 
 .shrink-0 {
@@ -905,6 +913,10 @@ video {
 
 .gap-6 {
   gap: 1.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .gap-x-1 {
@@ -1100,6 +1112,12 @@ video {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-\[\#eaff81\] {
+  --tw-gradient-from: #eaff81 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(234 255 129 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .to-\[\#667ee8\] {
   --tw-gradient-to: #667ee8 var(--tw-gradient-to-position);
 }
@@ -1114,6 +1132,10 @@ video {
 
 .to-pink-600 {
   --tw-gradient-to: #db2777 var(--tw-gradient-to-position);
+}
+
+.to-\[\#e8dd66\] {
+  --tw-gradient-to: #e8dd66 var(--tw-gradient-to-position);
 }
 
 .bg-clip-text {
@@ -1176,6 +1198,11 @@ video {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .pl-2 {
@@ -1347,6 +1374,14 @@ video {
     height: 100%;
   }
 
+  .md\:h-\[200px\] {
+    height: 200px;
+  }
+
+  .md\:h-\[170px\] {
+    height: 170px;
+  }
+
   .md\:w-\[150px\] {
     width: 150px;
   }
@@ -1363,6 +1398,14 @@ video {
     width: 100%;
   }
 
+  .md\:w-\[200px\] {
+    width: 200px;
+  }
+
+  .md\:w-\[170px\] {
+    width: 170px;
+  }
+
   .md\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -1373,6 +1416,20 @@ video {
 
   .md\:justify-start {
     justify-content: flex-start;
+  }
+
+  .md\:gap-6 {
+    gap: 1.5rem;
+  }
+
+  .md\:px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .md\:py-6 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 
   .md\:text-sm {
