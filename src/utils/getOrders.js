@@ -3,12 +3,9 @@ import axios from "axios";
 //get all orders from beginning
 export const allOrders = async () => {
   try {
-    const result = await axios.get(
-      "https://joglo-ndeso-kasir-api.vercel.app/sales",
-      {
-        withCredentials: true,
-      }
-    );
+    const result = await axios.get("http://localhost:5600/sales", {
+      withCredentials: true,
+    });
     return result.data;
   } catch (error) {
     console.log(error);
@@ -18,12 +15,9 @@ export const allOrders = async () => {
 
 export const sixMonthOrders = async () => {
   try {
-    const result = await axios.get(
-      "https://joglo-ndeso-kasir-api.vercel.app/sales/six-month",
-      {
-        withCredentials: true,
-      }
-    );
+    const result = await axios.get("http://localhost:5600/sales/six-month", {
+      withCredentials: true,
+    });
     return result.data;
   } catch (error) {
     console.log(error);
@@ -33,12 +27,9 @@ export const sixMonthOrders = async () => {
 
 export const sixMonthOrdersSum = async () => {
   try {
-    const result = await axios.get(
-      "https://joglo-ndeso-kasir-api.vercel.app/sales/sixx-month",
-      {
-        withCredentials: true,
-      }
-    );
+    const result = await axios.get("http://localhost:5600/sales/sixx-month", {
+      withCredentials: true,
+    });
     return result.data;
   } catch (error) {
     console.log(error);
@@ -49,12 +40,9 @@ export const sixMonthOrdersSum = async () => {
 //get this year orders
 export const yearlyOrders = async () => {
   try {
-    const result = await axios.get(
-      "https://joglo-ndeso-kasir-api.vercel.app/sales/this-year",
-      {
-        withCredentials: true,
-      }
-    );
+    const result = await axios.get("http://localhost:5600/sales/this-year", {
+      withCredentials: true,
+    });
     return result.data;
   } catch (error) {
     console.log(error);
@@ -65,12 +53,9 @@ export const yearlyOrders = async () => {
 //get this month orders
 export const monthlyOrders = async () => {
   try {
-    const result = await axios.get(
-      "https://joglo-ndeso-kasir-api.vercel.app/sales/this-month",
-      {
-        withCredentials: true,
-      }
-    );
+    const result = await axios.get("http://localhost:5600/sales/this-month", {
+      withCredentials: true,
+    });
     return result.data;
   } catch (error) {
     console.log(error);
@@ -81,12 +66,9 @@ export const monthlyOrders = async () => {
 //get this week orders
 export const weeklyOrders = async () => {
   try {
-    const result = await axios.get(
-      "https://joglo-ndeso-kasir-api.vercel.app/sales/this-week",
-      {
-        withCredentials: true,
-      }
-    );
+    const result = await axios.get("http://localhost:5600/sales/this-week", {
+      withCredentials: true,
+    });
     return result.data;
   } catch (error) {
     console.log(error);
@@ -97,12 +79,9 @@ export const weeklyOrders = async () => {
 //get this day orders
 export const dailyOrders = async () => {
   try {
-    const result = await axios.get(
-      "https://joglo-ndeso-kasir-api.vercel.app/sales/this-day",
-      {
-        withCredentials: true,
-      }
-    );
+    const result = await axios.get("http://localhost:5600/sales/this-day", {
+      withCredentials: true,
+    });
     return result.data;
   } catch (error) {
     console.log(error);

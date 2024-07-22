@@ -40,7 +40,7 @@ const Sales = () => {
     e.preventDefault();
     try {
       const result = await axios.post(
-        "https://joglo-ndeso-kasir-api.vercel.app/sales/get-orders-by-date",
+        "http://localhost:5600/sales/get-orders-by-date",
         { date: date },
         { withCredentials: true }
       );
