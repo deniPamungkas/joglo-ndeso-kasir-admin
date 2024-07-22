@@ -86,7 +86,7 @@ const Pesanan = () => {
 
   return (
     <>
-      <div className="px-4 py-4 gap-4 md:px-5 md:py-6 md:gap-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 ">
+      <div className="px-4 py-4 gap-4 md:px-5 md:py-6 md:gap-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
         <Link to={"/"}>
           <div className="w-[150px] h-[150px] md:w-[170px] md:h-[170px] m-auto border cursor-pointer border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center">
             <HomeOutlinedIcon fontSize="large" />
