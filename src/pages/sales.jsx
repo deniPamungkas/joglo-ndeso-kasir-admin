@@ -59,13 +59,13 @@ const Sales = () => {
   };
   return (
     <div className="">
-      <section className="w-full h-fit p-3 flex justify-between gap-x-3">
-        <div className="flex flex-col gap-y-3 w-[400px]">
+      <section className="w-full h-fit p-3 flex flex-col md:flex-row justify-between gap-3  bg-green-300">
+        <div className="flex flex-col gap-y-3 w-full md:w-[400px]">
           <form
             onSubmit={handleDateForm}
-            className="w-[400px] h-[70px] flex justify-center items-center bg-white rounded-md"
+            className="w-full h-[50px] md:w-[400px] md:h-[70px] flex justify-center items-center bg-white rounded-md"
           >
-            <div className="w-[350px] h-[30px] flex gap-x-1">
+            <div className="w-[350px] h-[30px] flex gap-x-1 px-3">
               <input
                 type="date"
                 name="tanggal"
@@ -134,7 +134,7 @@ const Sales = () => {
             </div>
           </div>
         </div>
-        <div className="w-full h-[482px] bg-white rounded-md">
+        <div className="w-full h-fit p-3 bg-white rounded-md">
           <div className="">
             <ul>
               {orderData !== null &&
