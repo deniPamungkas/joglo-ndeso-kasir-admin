@@ -1,5 +1,4 @@
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
@@ -14,12 +13,6 @@ const Home = () => {
         <div className="w-[170px] h-[170px] md:w-[200px] md:h-[200px] shadow hover:shadow-2xl rounded-lg flex flex-col justify-center items-center bg-gradient-to-t from-[#eb12e3] to-[#e86f66] font-semibold text-2xl text-white">
           <MenuBookIcon fontSize="large" />
           <span>Pesanan</span>
-        </div>
-      </Link>
-      <Link to={"/playstation"}>
-        <div className="w-[170px] h-[170px] md:w-[200px] md:h-[200px] shadow hover:shadow-2xl rounded-lg flex flex-col justify-center items-center bg-gradient-to-t from-[#9fea1b] to-[#66e87c] font-semibold text-2xl text-white">
-          <SportsEsportsIcon fontSize="large" />
-          <span>Playstation</span>
         </div>
       </Link>
       <Link
