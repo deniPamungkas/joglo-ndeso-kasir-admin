@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 
 const Layout = () => {
   return (
-    <div className="w-full h-screen flex">
+    <div className="w-full h-screen flex relative">
       <SideBar />
       <div className="w-full min-h-screen overflow-y-scroll relative">
         <Navbar />
