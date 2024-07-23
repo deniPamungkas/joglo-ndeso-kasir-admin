@@ -227,7 +227,7 @@ const Products = () => {
     }
   };
   return (
-    <div className="w-full h-screen p-3">
+    <div className="w-full h-fit p-3">
       <div className=" w-full h-[510px] overflow-scroll relative">
         {isLoading ? (
           <div className="m-auto font-bold text-5xl">loading</div>
