@@ -22,7 +22,7 @@ const Pesanan = () => {
       try {
         setLoading(true);
         const name = await axios.get(
-          `https://joglo-ndeso-kasir-api.vercel.app/invoice/invoice-name?name=${invoiceNameDebounce}`,
+          `http://localhost:5600/invoice/invoice-name?name=${invoiceNameDebounce}`,
           { withCredentials: true }
         );
         setResponseError(name);
@@ -42,7 +42,7 @@ const Pesanan = () => {
     queryFn: async () => {
       try {
         const result = await axios.get(
-          "https://joglo-ndeso-kasir-api.vercel.app/invoice/invoice-names",
+          "http://localhost:5600/invoice/invoice-names",
           {
             withCredentials: true,
           }
@@ -60,7 +60,7 @@ const Pesanan = () => {
       if (responseError.status == 200) {
         try {
           const newInvoiceName = await axios.post(
-            `https://joglo-ndeso-kasir-api.vercel.app/invoice/invoice-name`,
+            `http://localhost:5600/invoice/invoice-name`,
             { name: invoiceNameDebounce },
             { withCredentials: true }
           );
@@ -86,7 +86,7 @@ const Pesanan = () => {
 
   return (
     <>
-      <div className="px-4 py-4 gap-4 md:px-5 md:py-6 md:gap-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 ">
+      <div className="px-4 py-4 gap-4 md:px-5 md:py-6 md:gap-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
         <Link to={"/"}>
           <div className="w-[150px] h-[150px] md:w-[170px] md:h-[170px] m-auto border cursor-pointer border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center">
             <HomeOutlinedIcon fontSize="large" />

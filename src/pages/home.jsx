@@ -1,5 +1,4 @@
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
@@ -43,7 +42,6 @@ const Home = () => {
           </div>
         </Link>
       </div>
-    </div>
   );
 };
 

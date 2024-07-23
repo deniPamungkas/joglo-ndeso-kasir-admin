@@ -11,13 +11,9 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       setLoading(true);
-      await axios.post(
-        "https://joglo-ndeso-kasir-api.vercel.app/auth/login",
-        formikLogin.values,
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.post("http://localhost:5600/auth/login", formikLogin.values, {
+        withCredentials: true,
+      });
       navigate("/");
     } catch (error) {
       setLoading(true);
