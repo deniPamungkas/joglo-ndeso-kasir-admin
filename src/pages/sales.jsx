@@ -59,7 +59,7 @@ const Sales = () => {
   };
   return (
     <div className="">
-      <section className="w-full h-fit p-3 flex flex-col md:flex-row justify-between gap-3  bg-green-300">
+      <section className="w-full h-fit p-3 flex flex-col md:flex-row justify-between gap-3 bg-gray-100">
         <div className="flex flex-col gap-y-3 w-full md:w-[400px]">
           <form
             onSubmit={handleDateForm}

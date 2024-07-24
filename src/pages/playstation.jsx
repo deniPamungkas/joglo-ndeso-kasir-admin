@@ -1,5 +1,5 @@
 const Playstation = () => {
-  return <div>playstation</div>;
+  return <div className="bg-gray-100">playstation</div>;
 };
 
 export default Playstation;

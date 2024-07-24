@@ -14,13 +14,11 @@ import {
 } from "chart.js";
 import { useQuery } from "@tanstack/react-query";
 import {
-  allOrders,
   dailyOrders,
   fitDataToMonth,
   monthlyOrders,
   profitThisTime,
   sixMonthOrderPerCat,
-  sixMonthOrders,
   sixMonthOrdersSum,
   sortByYearnMonth,
   weeklyOrders,
@@ -71,15 +69,15 @@ const Dashboard = () => {
     return getSixMonth;
   };
 
-  const orders = useQuery({
-    queryKey: ["orders"],
-    queryFn: allOrders,
-  });
+  // const orders = useQuery({
+  //   queryKey: ["orders"],
+  //   queryFn: allOrders,
+  // });
 
-  const orderSixMonths = useQuery({
-    queryKey: ["sixMonthOrders"],
-    queryFn: sixMonthOrders,
-  });
+  // const orderSixMonths = useQuery({
+  //   queryKey: ["sixMonthOrders"],
+  //   queryFn: sixMonthOrders,
+  // });
 
   const orderSixMonthsSum = useQuery({
     queryKey: ["sixMonthOrdersSum"],
