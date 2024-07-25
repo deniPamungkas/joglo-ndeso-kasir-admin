@@ -8,18 +8,35 @@ import { useContext } from "react";
 import { Side } from "../context/sideContext";
 import { Link } from "react-router-dom";
 import { todayDate } from "../utils/getTodayDate";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const SideBar = () => {
-  const { value, setValue } = useContext(Side);
+  const { value, setValue, position, setPosition } = useContext(Side);
   //handle side state
   const handleClick = (e) => {
+    setPosition(false);
     setValue(e.target.parentElement.id);
   };
   return (
-    <div className="w-[250px] h-screen bg-white p-3 lg:p-5 hidden md:block z-50">
-      <div className="">
-        <h3 className="text-sm">{todayDate()}</h3>
-        <h1 className="text-2xl font-bold">Hi, Joglo</h1>
+    <div
+      className={`w-[200px] md:w-[250px] h-screen bg-white p-3 lg:p-5 absolute left-0 ${
+        position ? " translate-x-[0px]" : "-translate-x-[200px]"
+      } md:block md:relative md:left-0 z-50 ease-in-out transition`}
+    >
+      <div className="flex justify-between items-center">
+        <span>
+          <h3 className="text-sm">{todayDate()}</h3>
+          <h1 className="text-2xl font-bold">Hi, Joglo</h1>
+        </span>
+        <button
+          type="button"
+          className="md:hidden"
+          onClick={() => {
+            setPosition(false);
+          }}
+        >
+          <ArrowBackIcon />
+        </button>
       </div>
       <ul className="flex flex-col gap-y-5 py-10">
         <Link

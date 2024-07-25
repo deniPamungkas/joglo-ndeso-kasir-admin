@@ -1,12 +1,12 @@
 const Earnings = (props) => {
   return (
-    <section className="w-[175px] h-[80px] md:w-full md:h-full bg-white p-2 flex flex-col justify-between rounded-md shrink-0">
+    <section className="w-[160px] h-[70px] md:w-full md:h-full bg-white p-2 flex flex-col justify-between rounded-md shrink-0">
       <div className="w-full flex justify-between items-center ">
-        <span className=" text-sm">This {props.time}</span>
+        <span className=" text-xs md:text-sm">This {props.time}</span>
         <span className="text-xs">Aug</span>
       </div>
       <div>
-        <span className="text-lg font-bold">
+        <span className="text-sm md:text-lg font-bold">
           {props.value
             ? new Intl.NumberFormat("en-US", {
                 style: "currency",

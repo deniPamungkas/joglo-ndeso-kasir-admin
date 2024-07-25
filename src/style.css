@@ -1403,6 +1403,10 @@ video {
     position: relative;
   }
 
+  .md\:left-0 {
+    left: 0px;
+  }
+
   .md\:block {
     display: block;
   }
