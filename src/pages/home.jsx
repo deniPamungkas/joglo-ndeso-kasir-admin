@@ -6,6 +6,7 @@ import { Side } from "../context/sideContext";
 import LoginIcon from "@mui/icons-material/Login";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const Home = () => {
   const { value } = useContext(Side);
@@ -76,7 +77,7 @@ const Home = () => {
             onClick={handleLogout}
             className="w-[150px] h-[150px] md:w-[200px] md:h-[200px] shadow hover:shadow-2xl rounded-lg flex flex-col justify-center items-center bg-gradient-to-t from-[#23c4ea] to-[#667ee8] font-semibold text-xl text-white"
           >
-            <LoginIcon fontSize="large" />
+            <LogoutIcon fontSize="large" />
             <span>Logout</span>
           </div>
         )}
