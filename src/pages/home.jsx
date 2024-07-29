@@ -65,6 +65,12 @@ const Home = () => {
             <span>Dashboard</span>
           </div>
         </Link>
+        <Link to={"/playstation"}>
+          <div className="w-[150px] h-[150px] md:w-[200px] md:h-[200px] shadow hover:shadow-2xl rounded-lg flex flex-col justify-center items-center bg-gradient-to-t from-[#9fea1b] to-[#66e87c] font-semibold text-xl md:text-2xl text-white">
+            <SportsEsportsIcon fontSize="large" />
+            <span>Playstation</span>
+          </div>
+        </Link>
         {confilrmLogin?.data == undefined ? (
           <Link to={"/login"}>
             <div className="w-[150px] h-[150px] md:w-[200px] md:h-[200px] shadow hover:shadow-2xl rounded-lg flex flex-col justify-center items-center bg-gradient-to-t from-[#23c4ea] to-[#667ee8] font-semibold text-xl text-white">
