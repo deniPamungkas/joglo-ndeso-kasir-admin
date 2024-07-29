@@ -1398,6 +1398,10 @@ video {
     width: 100%;
   }
 
+  .md\:w-\[500px\] {
+    width: 500px;
+  }
+
   .md\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

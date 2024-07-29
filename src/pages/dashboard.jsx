@@ -24,6 +24,7 @@ import {
   weeklyOrders,
   yearlyOrders,
 } from "../utils/getOrders";
+import axios from "axios";
 
 const Dashboard = () => {
   ChartJS.register(
@@ -68,6 +69,22 @@ const Dashboard = () => {
     }
     return getSixMonth;
   };
+
+  const confilrmLogin = useQuery({
+    queryFn: async () => {
+      try {
+        const isLoggedIn = axios.get(
+          "https://joglo-ndeso-kasir-api-dev.vercel.app/auth/is-logged-in",
+          { withCredentials: true }
+        );
+        return isLoggedIn;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
+    queryKey: ["confirmLogin"],
+  });
 
   // const orders = useQuery({
   //   queryKey: ["orders"],
@@ -114,103 +131,109 @@ const Dashboard = () => {
   });
 
   return (
-    <div className=" w-full h-fit bg-gray-100 ">
-      <section className="w-full h-fit md:h-[150px] flex py-4 px-3 justify-center md:justify-start items-center">
-        <div className="md:w-full md:h-full grid grid-cols-2 lg:grid-cols-4 gap-2">
-          <Earnings time="Year" value={profitThisTime(ordersThisYear)} />
-          <Earnings time="Month" value={profitThisTime(ordersThisMonth)} />
-          <Earnings time="Week" value={profitThisTime(ordersThisWeek)} />
-          <Earnings time="day" value={profitThisTime(ordersThisDay)} />
+    <>
+      {confilrmLogin?.data == undefined ? (
+        <div className=" w-full h-fit bg-gray-100 ">Not Logged In</div>
+      ) : (
+        <div className=" w-full h-fit bg-gray-100 ">
+          <section className="w-full h-fit md:h-[150px] flex py-4 px-3 justify-center md:justify-start items-center">
+            <div className="md:w-full md:h-full grid grid-cols-2 lg:grid-cols-4 gap-2">
+              <Earnings time="Year" value={profitThisTime(ordersThisYear)} />
+              <Earnings time="Month" value={profitThisTime(ordersThisMonth)} />
+              <Earnings time="Week" value={profitThisTime(ordersThisWeek)} />
+              <Earnings time="day" value={profitThisTime(ordersThisDay)} />
+            </div>
+          </section>
+          <section className="px-3 flex-col">
+            <h1 className="text-xl font-bold mb-2">Analytics</h1>
+            <div className="flex flex-col xl:flex-row gap-2">
+              <div className="w-full h-fit bg-white rounded-md p-2">
+                <h1 className="font-semibold text-xl">Grafik Pemasukan</h1>
+                <Line
+                  datasetIdKey="se"
+                  options={{
+                    responsive: true,
+                    animation: { duration: 2000, easing: "easeOutExpo" },
+                    plugins: {
+                      legend: {
+                        labels: {},
+                      },
+                    },
+                  }}
+                  data={{
+                    labels: months(),
+                    datasets: [
+                      {
+                        id: 1,
+                        label: "Pemasukan",
+                        backgroundColor: "teal",
+                        borderColor: "teal",
+                        data: [1, 2, 3, 4, 5, 6],
+                      },
+                    ],
+                  }}
+                />
+              </div>
+              <div className="grafik w-full h-fit bg-white rounded-md p-2">
+                <h1 className="font-semibold text-xl">Grafik Pesanan</h1>
+                <Bar
+                  datasetIdKey="se"
+                  options={{
+                    responsive: true,
+                    indexAxis: "x",
+                    animation: { duration: 2000, easing: "easeOutExpo" },
+                  }}
+                  data={{
+                    labels: months(),
+                    datasets: [
+                      {
+                        id: 1,
+                        label: "paket",
+                        backgroundColor: "teal",
+                        borderColor: "teal",
+                        data: sortByYearnMonth(
+                          fitDataToMonth(
+                            sixMonthOrderPerCat(orderSixMonthsSum, "paket")
+                          )
+                        )?.map((data) => {
+                          return data.qty;
+                        }),
+                      },
+                      {
+                        id: 2,
+                        label: "makan",
+                        backgroundColor: "orange",
+                        borderColor: "orange",
+                        data: sortByYearnMonth(
+                          fitDataToMonth(
+                            sixMonthOrderPerCat(orderSixMonthsSum, "makan")
+                          )
+                        )?.map((data) => {
+                          return data.qty;
+                        }),
+                      },
+                      {
+                        id: 3,
+                        label: "minum",
+                        backgroundColor: "salmon",
+                        borderColor: "salmon",
+                        data: sortByYearnMonth(
+                          fitDataToMonth(
+                            sixMonthOrderPerCat(orderSixMonthsSum, "minum")
+                          )
+                        )?.map((data) => {
+                          return data.qty;
+                        }),
+                      },
+                    ],
+                  }}
+                />
+              </div>
+            </div>
+          </section>
         </div>
-      </section>
-      <section className="px-3 flex-col">
-        <h1 className="text-xl font-bold mb-2">Analytics</h1>
-        <div className="flex flex-col xl:flex-row gap-2">
-          <div className="w-full h-fit bg-white rounded-md p-2">
-            <h1 className="font-semibold text-xl">Grafik Pemasukan</h1>
-            <Line
-              datasetIdKey="se"
-              options={{
-                responsive: true,
-                animation: { duration: 2000, easing: "easeOutExpo" },
-                plugins: {
-                  legend: {
-                    labels: {},
-                  },
-                },
-              }}
-              data={{
-                labels: months(),
-                datasets: [
-                  {
-                    id: 1,
-                    label: "Pemasukan",
-                    backgroundColor: "teal",
-                    borderColor: "teal",
-                    data: [1, 2, 3, 4, 5, 6],
-                  },
-                ],
-              }}
-            />
-          </div>
-          <div className="grafik w-full h-fit bg-white rounded-md p-2">
-            <h1 className="font-semibold text-xl">Grafik Pesanan</h1>
-            <Bar
-              datasetIdKey="se"
-              options={{
-                responsive: true,
-                indexAxis: "x",
-                animation: { duration: 2000, easing: "easeOutExpo" },
-              }}
-              data={{
-                labels: months(),
-                datasets: [
-                  {
-                    id: 1,
-                    label: "paket",
-                    backgroundColor: "teal",
-                    borderColor: "teal",
-                    data: sortByYearnMonth(
-                      fitDataToMonth(
-                        sixMonthOrderPerCat(orderSixMonthsSum, "paket")
-                      )
-                    )?.map((data) => {
-                      return data.qty;
-                    }),
-                  },
-                  {
-                    id: 2,
-                    label: "makan",
-                    backgroundColor: "orange",
-                    borderColor: "orange",
-                    data: sortByYearnMonth(
-                      fitDataToMonth(
-                        sixMonthOrderPerCat(orderSixMonthsSum, "makan")
-                      )
-                    )?.map((data) => {
-                      return data.qty;
-                    }),
-                  },
-                  {
-                    id: 3,
-                    label: "minum",
-                    backgroundColor: "salmon",
-                    borderColor: "salmon",
-                    data: sortByYearnMonth(
-                      fitDataToMonth(
-                        sixMonthOrderPerCat(orderSixMonthsSum, "minum")
-                      )
-                    )?.map((data) => {
-                      return data.qty;
-                    }),
-                  },
-                ],
-              }}
-            />
-          </div>
-        </div>
-      </section>
-    </div>
+      )}
+    </>
   );
 };
 

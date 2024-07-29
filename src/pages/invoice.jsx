@@ -280,7 +280,7 @@ const Invoice = () => {
   });
 
   return (
-    <div className="bg-gray-100 min-h-screen px-3 py-3">
+    <div className="bg-gray-100 min-h-screen px-3 py-3 md:w-[500px] m-auto">
       <div className="w-full h-[50px] bg-white flex justify-center items-center text-xl font-semibold rounded-lg">
         <h1>
           {invoiceNameMutation.isPending
@@ -351,9 +351,8 @@ const Invoice = () => {
           type="text"
           placeholder="cari..."
           className="w-full h-[30px] outline-none border-b-2 mb-3 text-xs px-2"
-          value={searchMenu}
           onChange={(e) => {
-            setSearchMenu(e.target.value);
+            setSearchMenu(e.target.value.toLowerCase().trim());
           }}
         />
         {products?.isLoading ? (

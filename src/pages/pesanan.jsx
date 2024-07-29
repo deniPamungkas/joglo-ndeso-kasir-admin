@@ -84,6 +84,22 @@ const Pesanan = () => {
     invoiceNameMutation.mutate();
   };
 
+  const confilrmLogin = useQuery({
+    queryFn: async () => {
+      try {
+        const isLoggedIn = axios.get(
+          "https://joglo-ndeso-kasir-api-dev.vercel.app/auth/is-logged-in",
+          { withCredentials: true }
+        );
+        return isLoggedIn;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
+    queryKey: ["confirmLogin"],
+  });
+
   return (
     <>
       <div className="px-4 py-4 gap-4 md:px-5 md:py-6 md:gap-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
@@ -98,15 +114,19 @@ const Pesanan = () => {
         >
           <AddIcon fontSize="large" />
         </div>
-        {allInvoices?.data?.data?.map((invoice) => {
-          return (
-            <Link to={`/invoice/${invoice._id}`} key={invoice.name}>
-              <div className="w-[150px] h-[150px] md:w-[170px] md:h-[170px] m-auto border border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center font-semibold text-2xl">
-                <span>{invoice.name}</span>
-              </div>
-            </Link>
-          );
-        })}
+        {confilrmLogin?.data == undefined ? (
+          <div className=" w-full h-fit">Not Logged In</div>
+        ) : (
+          allInvoices?.data?.data?.map((invoice) => {
+            return (
+              <Link to={`/invoice/${invoice._id}`} key={invoice.name}>
+                <div className="w-[150px] h-[150px] md:w-[170px] md:h-[170px] m-auto border border-black rounded-lg bg-white shadow-lg relative flex justify-center items-center font-semibold text-2xl">
+                  <span>{invoice.name}</span>
+                </div>
+              </Link>
+            );
+          })
+        )}
 
         <Modal open={openModal}>
           <div className="bg-white w-[300px] min-h-[100px] m-auto mt-40 p-2 outline-none flex flex-col justify-between gap-y-2">
