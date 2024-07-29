@@ -1,5 +1,5 @@
 const Playstation = () => {
-  return <div>playstation</div>;
+  return <div>under development</div>;
 };
 
 export default Playstation;
