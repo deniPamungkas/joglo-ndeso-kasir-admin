@@ -2,7 +2,8 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,9 @@ const Login = () => {
         navigate("/");
       } else {
         console.log(error);
+        toast.error(error.response.data.error, {
+          position: "top-center",
+        });
       }
     } finally {
       setLoading(false);
@@ -94,8 +98,20 @@ const Login = () => {
           )}
           Login
         </button>
-        <ToastContainer limit={3} />
       </form>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Flip
+      />
     </div>
   );
 };
