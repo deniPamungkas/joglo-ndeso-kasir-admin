@@ -222,15 +222,6 @@ const SideBar = () => {
             <HomeIcon style={{ color: "white" }} />
             <span>Home</span>
           </Link>
-          <Link
-            to={"/logout"}
-            id="Logout"
-            className={` bg-gray-500 text-white rounded-lg h-[40px] w-full flex justify-start px-3 font-semibold items-center gap-x-3 relative cursor-pointer`}
-          >
-            <div className="absolute top-0 right-0 left-0 bottom-0 z-10"></div>
-            <LogoutIcon style={{ color: "white" }} />
-            <span>Log Out</span>
-          </Link>
         </ul>
       </div>
     </>
