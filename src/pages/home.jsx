@@ -1,5 +1,6 @@
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Side } from "../context/sideContext";
